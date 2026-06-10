@@ -3,10 +3,11 @@ import { useSQLQuery } from "@motherduck/react-sql-query";
 import ForceGraph2D from "react-force-graph-2d";
 import ForceGraph3D from "react-force-graph-3d";
 import * as THREE from "three";
-import faces from "./faces.json";
 
 // NFL coaching tree — 3D/2D relationship graph with ego-focus navigation.
-// Nodes = coaches (face avatars); a link points mentor -> protégé.
+// Nodes = coaches; face thumbnails are served as base64 straight from the
+// MotherDuck `coaches` table (no external image hosting). A link points
+// mentor -> protégé.
 
 const NFL = "#013369";
 const MUTED = "#6a6a6a";
@@ -14,15 +15,12 @@ const WIDTH = 820;
 const HEIGHT = 640;
 const ALL = "__ALL__";
 
-const localFace = (name: string, url: string | null): string | null =>
-  (faces as Record<string, string>)[name] ?? url;
-
-type Coach = { name: string; image_url: string | null; is_roster: boolean };
+type Coach = { name: string; image_b64: string | null; is_roster: boolean };
 type Edge = { coach: string; served_under: string };
 type GNode = { id: string; img: string | null; roster: boolean; deg: number };
 
 export default function CoachingTree() {
-  const coachesQ = useSQLQuery<Coach[]>(`SELECT name, image_url, is_roster FROM nfl_coaching_tree.coaches`);
+  const coachesQ = useSQLQuery<Coach[]>(`SELECT name, image_b64, is_roster FROM nfl_coaching_tree.coaches`);
   const edgesQ = useSQLQuery<Edge[]>(`SELECT coach, served_under FROM nfl_coaching_tree.edges`);
   const coaches = (coachesQ.data ?? []) as Coach[];
   const edges = (edgesQ.data ?? []) as Edge[];
@@ -37,7 +35,7 @@ export default function CoachingTree() {
     const deg = new Map<string, number>();
     for (const e of edges) deg.set(e.served_under, (deg.get(e.served_under) ?? 0) + 1);
     const nodes: GNode[] = coaches.map((c) => ({
-      id: c.name, img: localFace(c.name, c.image_url), roster: !!c.is_roster, deg: deg.get(c.name) ?? 0,
+      id: c.name, img: c.image_b64, roster: !!c.is_roster, deg: deg.get(c.name) ?? 0,
     }));
     const ids = new Set(nodes.map((n) => n.id));
     const links = edges.filter((e) => ids.has(e.coach) && ids.has(e.served_under))
