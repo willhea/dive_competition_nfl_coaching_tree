@@ -1,0 +1,726 @@
+{
+  "Dave Canales": [
+    {
+      "team": "Seattle Seahawks",
+      "start_year": 2010,
+      "end_year": 2017,
+      "role": "Wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Seattle Seahawks",
+      "start_year": 2018,
+      "end_year": 2019,
+      "role": "Quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Seattle Seahawks",
+      "start_year": 2020,
+      "end_year": 2021,
+      "role": "Passing game coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Seattle Seahawks",
+      "start_year": 2022,
+      "end_year": 2022,
+      "role": "Quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2023,
+      "end_year": 2023,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Carolina Panthers",
+      "start_year": 2024,
+      "end_year": 9999,
+      "role": "Head coach",
+      "is_head_coach": true
+    }
+  ],
+  "Drew Petzing": [
+    {
+      "team": "Cleveland Browns",
+      "start_year": 2013,
+      "end_year": 2013,
+      "role": "Football operations intern",
+      "is_head_coach": false
+    },
+    {
+      "team": "Minnesota Vikings",
+      "start_year": 2014,
+      "end_year": 2015,
+      "role": "Offensive assistant",
+      "is_head_coach": false
+    },
+    {
+      "team": "Minnesota Vikings",
+      "start_year": 2016,
+      "end_year": 2017,
+      "role": "Assistant wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Minnesota Vikings",
+      "start_year": 2018,
+      "end_year": 2018,
+      "role": "Assistant quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Minnesota Vikings",
+      "start_year": 2019,
+      "end_year": 2019,
+      "role": "Wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Cleveland Browns",
+      "start_year": 2020,
+      "end_year": 2021,
+      "role": "Tight ends coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Cleveland Browns",
+      "start_year": 2022,
+      "end_year": 2022,
+      "role": "Quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Arizona Cardinals",
+      "start_year": 2023,
+      "end_year": 2025,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Detroit Lions",
+      "start_year": 2026,
+      "end_year": 9999,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    }
+  ],
+  "Jonathan Gannon": [
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2007,
+      "end_year": 2007,
+      "role": "Defensive quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Tennessee Titans",
+      "start_year": 2012,
+      "end_year": 2013,
+      "role": "Defensive quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Minnesota Vikings",
+      "start_year": 2014,
+      "end_year": 2017,
+      "role": "Assistant defensive backs coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Indianapolis Colts",
+      "start_year": 2018,
+      "end_year": 2020,
+      "role": "Defensive backs coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Philadelphia Eagles",
+      "start_year": 2021,
+      "end_year": 2022,
+      "role": "Defensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Arizona Cardinals",
+      "start_year": 2023,
+      "end_year": 2025,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "team": "Green Bay Packers",
+      "start_year": 2026,
+      "end_year": 9999,
+      "role": "Defensive coordinator",
+      "is_head_coach": false
+    }
+  ],
+  "Ejiro Evero": [
+    {
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2007,
+      "end_year": 2009,
+      "role": "Defensive quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "San Francisco 49ers",
+      "start_year": 2011,
+      "end_year": 2011,
+      "role": "Quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "San Francisco 49ers",
+      "start_year": 2012,
+      "end_year": 2013,
+      "role": "Offensive assistant",
+      "is_head_coach": false
+    },
+    {
+      "team": "San Francisco 49ers",
+      "start_year": 2014,
+      "end_year": 2015,
+      "role": "Defensive assistant",
+      "is_head_coach": false
+    },
+    {
+      "team": "Green Bay Packers",
+      "start_year": 2016,
+      "end_year": 2016,
+      "role": "Defensive quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Los Angeles Rams",
+      "start_year": 2017,
+      "end_year": 2020,
+      "role": "Safeties coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Los Angeles Rams",
+      "start_year": 2021,
+      "end_year": 2021,
+      "role": "Secondary coach & passing game coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Denver Broncos",
+      "start_year": 2022,
+      "end_year": 2022,
+      "role": "Defensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Carolina Panthers",
+      "start_year": 2023,
+      "end_year": 9999,
+      "role": "Defensive coordinator",
+      "is_head_coach": false
+    }
+  ],
+  "Wes Phillips": [
+    {
+      "team": "Dallas Cowboys",
+      "start_year": 2007,
+      "end_year": 2010,
+      "role": "Quality control / offensive assistant",
+      "is_head_coach": false
+    },
+    {
+      "team": "Dallas Cowboys",
+      "start_year": 2011,
+      "end_year": 2012,
+      "role": "Assistant offensive line coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Dallas Cowboys",
+      "start_year": 2013,
+      "end_year": 2013,
+      "role": "Tight ends coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Washington Redskins",
+      "start_year": 2014,
+      "end_year": 2018,
+      "role": "Tight ends coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Los Angeles Rams",
+      "start_year": 2019,
+      "end_year": 2020,
+      "role": "Tight ends coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Los Angeles Rams",
+      "start_year": 2021,
+      "end_year": 2021,
+      "role": "Tight ends coach & pass game coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Minnesota Vikings",
+      "start_year": 2022,
+      "end_year": 9999,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    }
+  ],
+  "Ben Johnson": [
+    {
+      "team": "Miami Dolphins",
+      "start_year": 2012,
+      "end_year": 2012,
+      "role": "Offensive assistant",
+      "is_head_coach": false
+    },
+    {
+      "team": "Miami Dolphins",
+      "start_year": 2013,
+      "end_year": 2015,
+      "role": "Assistant quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Miami Dolphins",
+      "start_year": 2015,
+      "end_year": 2015,
+      "role": "Tight ends coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Miami Dolphins",
+      "start_year": 2016,
+      "end_year": 2017,
+      "role": "Assistant wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Miami Dolphins",
+      "start_year": 2018,
+      "end_year": 2018,
+      "role": "Wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Detroit Lions",
+      "start_year": 2019,
+      "end_year": 2019,
+      "role": "Offensive quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Detroit Lions",
+      "start_year": 2020,
+      "end_year": 2021,
+      "role": "Tight ends coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Detroit Lions",
+      "start_year": 2021,
+      "end_year": 2021,
+      "role": "Passing game coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Detroit Lions",
+      "start_year": 2022,
+      "end_year": 2024,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Chicago Bears",
+      "start_year": 2025,
+      "end_year": 9999,
+      "role": "Head coach",
+      "is_head_coach": true
+    }
+  ],
+  "Brad Idzik": [
+    {
+      "team": "Seattle Seahawks",
+      "start_year": 2019,
+      "end_year": 2020,
+      "role": "Assistant wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Seattle Seahawks",
+      "start_year": 2021,
+      "end_year": 2021,
+      "role": "Assistant quarterbacks coach & offensive quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Seattle Seahawks",
+      "start_year": 2022,
+      "end_year": 2022,
+      "role": "Assistant wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2023,
+      "end_year": 2023,
+      "role": "Wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Carolina Panthers",
+      "start_year": 2024,
+      "end_year": 9999,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    }
+  ],
+  "Kyle Shanahan": [
+    {
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2004,
+      "end_year": 2005,
+      "role": "Offensive quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Houston Texans",
+      "start_year": 2006,
+      "end_year": 2006,
+      "role": "Wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Houston Texans",
+      "start_year": 2007,
+      "end_year": 2007,
+      "role": "Quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Houston Texans",
+      "start_year": 2008,
+      "end_year": 2009,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Washington Redskins",
+      "start_year": 2010,
+      "end_year": 2013,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Cleveland Browns",
+      "start_year": 2014,
+      "end_year": 2014,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2015,
+      "end_year": 2016,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "San Francisco 49ers",
+      "start_year": 2017,
+      "end_year": 9999,
+      "role": "Head coach",
+      "is_head_coach": true
+    }
+  ],
+  "Todd Bowles": [
+    {
+      "team": "New York Jets",
+      "start_year": 2000,
+      "end_year": 2000,
+      "role": "Secondary coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Cleveland Browns",
+      "start_year": 2001,
+      "end_year": 2003,
+      "role": "Secondary-nickel package coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Cleveland Browns",
+      "start_year": 2004,
+      "end_year": 2004,
+      "role": "Secondary coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Dallas Cowboys",
+      "start_year": 2005,
+      "end_year": 2007,
+      "role": "Secondary coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Miami Dolphins",
+      "start_year": 2008,
+      "end_year": 2011,
+      "role": "Assistant head coach & secondary coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Miami Dolphins",
+      "start_year": 2011,
+      "end_year": 2011,
+      "role": "Interim head coach & secondary coach",
+      "is_head_coach": true
+    },
+    {
+      "team": "Philadelphia Eagles",
+      "start_year": 2012,
+      "end_year": 2012,
+      "role": "Secondary coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Philadelphia Eagles",
+      "start_year": 2012,
+      "end_year": 2012,
+      "role": "Interim defensive coordinator & secondary coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Arizona Cardinals",
+      "start_year": 2013,
+      "end_year": 2014,
+      "role": "Defensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "New York Jets",
+      "start_year": 2015,
+      "end_year": 2018,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2019,
+      "end_year": 2021,
+      "role": "Defensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2022,
+      "end_year": 9999,
+      "role": "Head coach",
+      "is_head_coach": true
+    }
+  ],
+  "Raheem Morris": [
+    {
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2002,
+      "end_year": 2002,
+      "role": "Defensive quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2003,
+      "end_year": 2003,
+      "role": "Defensive assistant",
+      "is_head_coach": false
+    },
+    {
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2004,
+      "end_year": 2005,
+      "role": "Assistant defensive backs coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2007,
+      "end_year": 2008,
+      "role": "Defensive backs coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2009,
+      "end_year": 2011,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "team": "Washington Redskins",
+      "start_year": 2012,
+      "end_year": 2014,
+      "role": "Defensive backs coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2015,
+      "end_year": 2015,
+      "role": "Assistant head coach & defensive pass game coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2016,
+      "end_year": 2016,
+      "role": "Assistant head coach & wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2017,
+      "end_year": 2017,
+      "role": "Assistant head coach, wide receivers coach & offensive pass game coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2018,
+      "end_year": 2018,
+      "role": "Assistant head coach & offensive pass game coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2019,
+      "end_year": 2019,
+      "role": "Assistant head coach, defensive backs coach & wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2020,
+      "end_year": 2020,
+      "role": "Defensive coordinator & interim head coach",
+      "is_head_coach": true
+    },
+    {
+      "team": "Los Angeles Rams",
+      "start_year": 2021,
+      "end_year": 2023,
+      "role": "Defensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2024,
+      "end_year": 2025,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "team": "San Francisco 49ers",
+      "start_year": 2026,
+      "end_year": 9999,
+      "role": "Defensive coordinator",
+      "is_head_coach": false
+    }
+  ],
+  "Zac Robinson": [
+    {
+      "team": "Los Angeles Rams",
+      "start_year": 2019,
+      "end_year": 2019,
+      "role": "Assistant quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Los Angeles Rams",
+      "start_year": 2020,
+      "end_year": 2020,
+      "role": "Assistant wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Los Angeles Rams",
+      "start_year": 2021,
+      "end_year": 2021,
+      "role": "Assistant quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Los Angeles Rams",
+      "start_year": 2022,
+      "end_year": 2023,
+      "role": "Pass game coordinator & quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2024,
+      "end_year": 2025,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2026,
+      "end_year": 9999,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    }
+  ],
+  "Aden Durde": [
+    {
+      "team": "Dallas Cowboys",
+      "start_year": 2014,
+      "end_year": 2015,
+      "role": "Coaching intern",
+      "is_head_coach": false
+    },
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2016,
+      "end_year": 2016,
+      "role": "Bill Walsh NFL diversity coaching fellowship",
+      "is_head_coach": false
+    },
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2018,
+      "end_year": 2019,
+      "role": "Defensive quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Atlanta Falcons",
+      "start_year": 2020,
+      "end_year": 2020,
+      "role": "Outside linebackers coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Dallas Cowboys",
+      "start_year": 2021,
+      "end_year": 2023,
+      "role": "Defensive line coach",
+      "is_head_coach": false
+    },
+    {
+      "team": "Seattle Seahawks",
+      "start_year": 2024,
+      "end_year": 9999,
+      "role": "Defensive coordinator",
+      "is_head_coach": false
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "season": 2026,
+  "teams": [
+    {"team": "Buffalo Bills", "hc": ["Joe Brady", "Joe Brady (American football coach)"], "oc": ["Pete Carmichael Jr.", "Pete Carmichael Jr."], "dc": ["Jim Leonhard", "Jim Leonhard"]},
+    {"team": "Miami Dolphins", "hc": ["Jeff Hafley", "Jeff Hafley"], "oc": ["Bobby Slowik", "Bobby Slowik"], "dc": ["Sean Duggan", "Sean Duggan (American football)"]},
+    {"team": "New England Patriots", "hc": ["Mike Vrabel", "Mike Vrabel"], "oc": ["Josh McDaniels", "Josh McDaniels"], "dc": ["Zak Kuhr", "Zak Kuhr"]},
+    {"team": "New York Jets", "hc": ["Aaron Glenn", "Aaron Glenn"], "oc": ["Frank Reich", "Frank Reich"], "dc": ["Brian Duker", "Brian Duker"]},
+
+    {"team": "Baltimore Ravens", "hc": ["Jesse Minter", "Jesse Minter"], "oc": ["Declan Doyle", "Declan Doyle"], "dc": ["Anthony Weaver", "Anthony Weaver"]},
+    {"team": "Cincinnati Bengals", "hc": ["Zac Taylor", "Zac Taylor"], "oc": ["Dan Pitcher", "Dan Pitcher"], "dc": ["Al Golden", "Al Golden (American football)"]},
+    {"team": "Cleveland Browns", "hc": ["Todd Monken", "Todd Monken"], "oc": ["Travis Switzer", "Travis Switzer"], "dc": ["Mike Rutenberg", "Mike Rutenberg"]},
+    {"team": "Pittsburgh Steelers", "hc": ["Mike McCarthy", "Mike McCarthy"], "oc": ["Brian Angelichio", "Brian Angelichio"], "dc": ["Patrick Graham", "Patrick Graham (American football)"]},
+
+    {"team": "Houston Texans", "hc": ["DeMeco Ryans", "DeMeco Ryans"], "oc": ["Nick Caley", "Nick Caley"], "dc": ["Matt Burke", "Matt Burke (American football)"]},
+    {"team": "Indianapolis Colts", "hc": ["Shane Steichen", "Shane Steichen"], "oc": ["Jim Bob Cooter", "Jim Bob Cooter"], "dc": ["Lou Anarumo", "Lou Anarumo"]},
+    {"team": "Jacksonville Jaguars", "hc": ["Liam Coen", "Liam Coen"], "oc": ["Grant Udinski", "Grant Udinski"], "dc": ["Anthony Campanile", "Anthony Campanile"]},
+    {"team": "Tennessee Titans", "hc": ["Robert Saleh", "Robert Saleh"], "oc": ["Brian Daboll", "Brian Daboll"], "dc": ["Gus Bradley", "Gus Bradley"]},
+
+    {"team": "Denver Broncos", "hc": ["Sean Payton", "Sean Payton"], "oc": ["Davis Webb", "Davis Webb"], "dc": ["Vance Joseph", "Vance Joseph"]},
+    {"team": "Kansas City Chiefs", "hc": ["Andy Reid", "Andy Reid"], "oc": ["Eric Bieniemy", "Eric Bieniemy"], "dc": ["Steve Spagnuolo", "Steve Spagnuolo"]},
+    {"team": "Las Vegas Raiders", "hc": ["Klint Kubiak", "Klint Kubiak"], "oc": ["Andrew Janocko", "Andrew Janocko"], "dc": ["Rob Leonard", "Rob Leonard"]},
+    {"team": "Los Angeles Chargers", "hc": ["Jim Harbaugh", "Jim Harbaugh"], "oc": ["Mike McDaniel", "Mike McDaniel"], "dc": ["Chris O'Leary", "Chris O'Leary (American football)"]},
+
+    {"team": "Dallas Cowboys", "hc": ["Brian Schottenheimer", "Brian Schottenheimer"], "oc": ["Klayton Adams", "Klayton Adams"], "dc": ["Christian Parker", "Christian Parker (American football)"]},
+    {"team": "New York Giants", "hc": ["John Harbaugh", "John Harbaugh"], "oc": ["Matt Nagy", "Matt Nagy"], "dc": ["Dennard Wilson", "Dennard Wilson"]},
+    {"team": "Philadelphia Eagles", "hc": ["Nick Sirianni", "Nick Sirianni"], "oc": ["Sean Mannion", "Sean Mannion (American football)"], "dc": ["Vic Fangio", "Vic Fangio"]},
+    {"team": "Washington Commanders", "hc": ["Dan Quinn", "Dan Quinn (American football)"], "oc": ["David Blough", "David Blough"], "dc": ["Daronte Jones", "Daronte Jones"]},
+
+    {"team": "Chicago Bears", "hc": ["Ben Johnson", "Ben Johnson (American football coach)"], "oc": ["Press Taylor", "Press Taylor"], "dc": ["Dennis Allen", "Dennis Allen (American football)"]},
+    {"team": "Detroit Lions", "hc": ["Dan Campbell", "Dan Campbell"], "oc": ["Drew Petzing", "Drew Petzing"], "dc": ["Kelvin Sheppard", "Kelvin Sheppard"]},
+    {"team": "Green Bay Packers", "hc": ["Matt LaFleur", "Matt LaFleur"], "oc": ["Adam Stenavich", "Adam Stenavich"], "dc": ["Jonathan Gannon", "Jonathan Gannon"]},
+    {"team": "Minnesota Vikings", "hc": ["Kevin O'Connell", "Kevin O'Connell (American football)"], "oc": ["Wes Phillips", "Wes Phillips"], "dc": ["Brian Flores", "Brian Flores"]},
+
+    {"team": "Atlanta Falcons", "hc": ["Kevin Stefanski", "Kevin Stefanski"], "oc": ["Tommy Rees", "Tommy Rees (American football)"], "dc": ["Jeff Ulbrich", "Jeff Ulbrich"]},
+    {"team": "Carolina Panthers", "hc": ["Dave Canales", "Dave Canales"], "oc": ["Brad Idzik", "Brad Idzik"], "dc": ["Ejiro Evero", "Ejiro Evero"]},
+    {"team": "New Orleans Saints", "hc": ["Kellen Moore", "Kellen Moore"], "oc": ["Doug Nussmeier", "Doug Nussmeier"], "dc": ["Brandon Staley", "Brandon Staley"]},
+    {"team": "Tampa Bay Buccaneers", "hc": ["Todd Bowles", "Todd Bowles"], "oc": ["Zac Robinson", "Zac Robinson"], "dc": null},
+
+    {"team": "Arizona Cardinals", "hc": ["Mike LaFleur", "Mike LaFleur"], "oc": ["Nathaniel Hackett", "Nathaniel Hackett"], "dc": ["Nick Rallis", "Nick Rallis"]},
+    {"team": "Los Angeles Rams", "hc": ["Sean McVay", "Sean McVay"], "oc": ["Nathan Scheelhaase", "Nathan Scheelhaase"], "dc": ["Chris Shula", "Chris Shula"]},
+    {"team": "San Francisco 49ers", "hc": ["Kyle Shanahan", "Kyle Shanahan"], "oc": ["Klay Kubiak", "Klay Kubiak"], "dc": ["Raheem Morris", "Raheem Morris"]},
+    {"team": "Seattle Seahawks", "hc": ["Mike Macdonald", "Mike Macdonald"], "oc": ["Brian Fleury", "Brian Fleury"], "dc": ["Aden Durde", "Aden Durde"]}
+  ]
+}

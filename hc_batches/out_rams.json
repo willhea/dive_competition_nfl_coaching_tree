@@ -1,0 +1,149 @@
+{
+  "Los Angeles Rams": [
+    {
+      "coach": "Damon Wetzel",
+      "start_year": 1936,
+      "end_year": 1936
+    },
+    {
+      "coach": "Hugo Bezdek",
+      "start_year": 1937,
+      "end_year": 1938
+    },
+    {
+      "coach": "Art Lewis",
+      "start_year": 1938,
+      "end_year": 1938
+    },
+    {
+      "coach": "Dutch Clark",
+      "start_year": 1939,
+      "end_year": 1942
+    },
+    {
+      "coach": "Aldo Donelli",
+      "start_year": 1944,
+      "end_year": 1944
+    },
+    {
+      "coach": "Adam Walsh",
+      "start_year": 1945,
+      "end_year": 1946
+    },
+    {
+      "coach": "Bob Snyder",
+      "start_year": 1947,
+      "end_year": 1947
+    },
+    {
+      "coach": "Clark Shaughnessy",
+      "start_year": 1948,
+      "end_year": 1949
+    },
+    {
+      "coach": "Joe Stydahar",
+      "start_year": 1950,
+      "end_year": 1952
+    },
+    {
+      "coach": "Hamp Pool",
+      "start_year": 1952,
+      "end_year": 1954
+    },
+    {
+      "coach": "Sid Gillman",
+      "start_year": 1955,
+      "end_year": 1959
+    },
+    {
+      "coach": "Bob Waterfield",
+      "start_year": 1960,
+      "end_year": 1962
+    },
+    {
+      "coach": "Harland Svare",
+      "start_year": 1962,
+      "end_year": 1965
+    },
+    {
+      "coach": "George Allen",
+      "start_year": 1966,
+      "end_year": 1970
+    },
+    {
+      "coach": "Tommy Prothro",
+      "start_year": 1971,
+      "end_year": 1972
+    },
+    {
+      "coach": "Chuck Knox",
+      "start_year": 1973,
+      "end_year": 1977
+    },
+    {
+      "coach": "Ray Malavasi",
+      "start_year": 1978,
+      "end_year": 1982
+    },
+    {
+      "coach": "John Robinson",
+      "start_year": 1983,
+      "end_year": 1991
+    },
+    {
+      "coach": "Chuck Knox",
+      "start_year": 1992,
+      "end_year": 1994
+    },
+    {
+      "coach": "Rich Brooks",
+      "start_year": 1995,
+      "end_year": 1996
+    },
+    {
+      "coach": "Dick Vermeil",
+      "start_year": 1997,
+      "end_year": 1999
+    },
+    {
+      "coach": "Mike Martz",
+      "start_year": 2000,
+      "end_year": 2005
+    },
+    {
+      "coach": "Joe Vitt",
+      "start_year": 2005,
+      "end_year": 2005
+    },
+    {
+      "coach": "Scott Linehan",
+      "start_year": 2006,
+      "end_year": 2008
+    },
+    {
+      "coach": "Jim Haslett",
+      "start_year": 2008,
+      "end_year": 2008
+    },
+    {
+      "coach": "Steve Spagnuolo",
+      "start_year": 2009,
+      "end_year": 2011
+    },
+    {
+      "coach": "Jeff Fisher",
+      "start_year": 2012,
+      "end_year": 2016
+    },
+    {
+      "coach": "John Fassel",
+      "start_year": 2016,
+      "end_year": 2016
+    },
+    {
+      "coach": "Sean McVay",
+      "start_year": 2017,
+      "end_year": 9999
+    }
+  ]
+}

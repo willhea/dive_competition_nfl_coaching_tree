@@ -1,0 +1,16 @@
+import { chromium } from "playwright";
+const URL = "http://localhost:5173/";
+const render = process.argv[2] || "2d", focus = process.argv[3] || "Sean McVay", out = process.argv[4];
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 900, height: 840 } });
+const errs = []; p.on("pageerror", (e) => errs.push(e.message));
+await p.goto(URL, { waitUntil: "load" });
+await p.getByRole("heading", { name: /NFL Coaching Tree/i }).waitFor({ timeout: 40000 });
+await p.getByRole("button", { name: new RegExp(`^${render.toUpperCase()}$`) }).click();
+await p.waitForTimeout(800);
+await p.selectOption("select", focus);
+await p.waitForTimeout(render === "3d" ? 5500 : 4500);
+await p.screenshot({ path: out, fullPage: true });
+const shown = await p.locator("text=/shown/").first().textContent().catch(() => "?");
+console.log("done", out, "| shown:", shown, "| errs:", errs.slice(0, 3));
+await b.close();

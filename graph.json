@@ -1,0 +1,746 @@
+{
+  "nodes": [
+    {
+      "coach": "Sean McVay",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Sean_McVay_2019_%28cropped2%29.jpg"
+    },
+    {
+      "coach": "Andy Reid",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Andy_Reid_%28Kansas_City_Chiefs_at_Washington_Football_Team%2C_October_17%2C_2021%29_%28cropped%29.jpg"
+    },
+    {
+      "coach": "Mike Shanahan",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/0/08/Mike_Shanahan_OCT2021_%28cropped%29.jpg"
+    },
+    {
+      "coach": "Matt LaFleur",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/f/f9/LaFleur_%28cropped%29.jpg"
+    },
+    {
+      "coach": "Dan Quinn",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/7/71/Dan_Quinn_training_camp_2025.jpg"
+    },
+    {
+      "coach": "Jon Gruden",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/5/50/Jon_gruden.jpg"
+    },
+    {
+      "coach": "Jay Gruden",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/1/14/Jay_Gruden_%2850121730372%29_%28cropped%29_%28cropped%29.jpg"
+    },
+    {
+      "coach": "Mike Holmgren",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/d/d9/Mike_Holmgren_2004_Portrait_crop.jpg"
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/c/cf/Kyle_Shanahan_%28tight_crop%29.jpg"
+    },
+    {
+      "coach": "Gary Kubiak",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/b/b1/Gary_Kubiak_SB_Parade_Cropped_%28cropped%29.jpg"
+    }
+  ],
+  "stints": [
+    {
+      "coach": "Sean McVay",
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2008,
+      "end_year": 2008,
+      "role": "Offensive assistant",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Sean McVay",
+      "team": "Washington Redskins",
+      "start_year": 2010,
+      "end_year": 2010,
+      "role": "Offensive assistant",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Sean McVay",
+      "team": "Washington Redskins",
+      "start_year": 2011,
+      "end_year": 2013,
+      "role": "Tight ends coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Sean McVay",
+      "team": "Washington Redskins",
+      "start_year": 2014,
+      "end_year": 2016,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Sean McVay",
+      "team": "Los Angeles Rams",
+      "start_year": 2017,
+      "end_year": 9999,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Andy Reid",
+      "team": "Green Bay Packers",
+      "start_year": 1992,
+      "end_year": 1996,
+      "role": "Assistant offensive line & tight ends coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Andy Reid",
+      "team": "Green Bay Packers",
+      "start_year": 1997,
+      "end_year": 1998,
+      "role": "Quarterbacks coach & assistant head coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Andy Reid",
+      "team": "Philadelphia Eagles",
+      "start_year": 1999,
+      "end_year": 2012,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Andy Reid",
+      "team": "Kansas City Chiefs",
+      "start_year": 2013,
+      "end_year": 9999,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Mike Shanahan",
+      "team": "Denver Broncos",
+      "start_year": 1984,
+      "end_year": 1984,
+      "role": "Wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Mike Shanahan",
+      "team": "Denver Broncos",
+      "start_year": 1985,
+      "end_year": 1987,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Mike Shanahan",
+      "team": "Los Angeles Raiders",
+      "start_year": 1988,
+      "end_year": 1989,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Mike Shanahan",
+      "team": "Denver Broncos",
+      "start_year": 1989,
+      "end_year": 1990,
+      "role": "Quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Mike Shanahan",
+      "team": "Denver Broncos",
+      "start_year": 1991,
+      "end_year": 1991,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Mike Shanahan",
+      "team": "San Francisco 49ers",
+      "start_year": 1992,
+      "end_year": 1993,
+      "role": "Offensive coordinator & quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Mike Shanahan",
+      "team": "San Francisco 49ers",
+      "start_year": 1994,
+      "end_year": 1994,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Mike Shanahan",
+      "team": "Denver Broncos",
+      "start_year": 1995,
+      "end_year": 2008,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Mike Shanahan",
+      "team": "Washington Redskins",
+      "start_year": 2010,
+      "end_year": 2013,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Matt LaFleur",
+      "team": "Houston Texans",
+      "start_year": 2008,
+      "end_year": 2009,
+      "role": "Offensive assistant",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Matt LaFleur",
+      "team": "Washington Redskins",
+      "start_year": 2010,
+      "end_year": 2013,
+      "role": "Quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Matt LaFleur",
+      "team": "Atlanta Falcons",
+      "start_year": 2015,
+      "end_year": 2016,
+      "role": "Quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Matt LaFleur",
+      "team": "Los Angeles Rams",
+      "start_year": 2017,
+      "end_year": 2017,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Matt LaFleur",
+      "team": "Tennessee Titans",
+      "start_year": 2018,
+      "end_year": 2018,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Matt LaFleur",
+      "team": "Green Bay Packers",
+      "start_year": 2019,
+      "end_year": 9999,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Dan Quinn",
+      "team": "San Francisco 49ers",
+      "start_year": 2001,
+      "end_year": 2002,
+      "role": "Defensive quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Dan Quinn",
+      "team": "San Francisco 49ers",
+      "start_year": 2003,
+      "end_year": 2004,
+      "role": "Defensive line coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Dan Quinn",
+      "team": "Miami Dolphins",
+      "start_year": 2005,
+      "end_year": 2006,
+      "role": "Defensive line coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Dan Quinn",
+      "team": "New York Jets",
+      "start_year": 2007,
+      "end_year": 2008,
+      "role": "Defensive line coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Dan Quinn",
+      "team": "Seattle Seahawks",
+      "start_year": 2009,
+      "end_year": 2010,
+      "role": "Assistant head coach & defensive line coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Dan Quinn",
+      "team": "Seattle Seahawks",
+      "start_year": 2013,
+      "end_year": 2014,
+      "role": "Defensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Dan Quinn",
+      "team": "Atlanta Falcons",
+      "start_year": 2015,
+      "end_year": 2020,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Dan Quinn",
+      "team": "Dallas Cowboys",
+      "start_year": 2021,
+      "end_year": 2023,
+      "role": "Defensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Dan Quinn",
+      "team": "Washington Commanders",
+      "start_year": 2024,
+      "end_year": 9999,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Jon Gruden",
+      "team": "San Francisco 49ers",
+      "start_year": 1990,
+      "end_year": 1990,
+      "role": "Offensive assistant",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Jon Gruden",
+      "team": "Green Bay Packers",
+      "start_year": 1992,
+      "end_year": 1992,
+      "role": "Offensive assistant/quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Jon Gruden",
+      "team": "Green Bay Packers",
+      "start_year": 1993,
+      "end_year": 1994,
+      "role": "Wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Jon Gruden",
+      "team": "Philadelphia Eagles",
+      "start_year": 1995,
+      "end_year": 1997,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Jon Gruden",
+      "team": "Oakland Raiders",
+      "start_year": 1998,
+      "end_year": 2001,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Jon Gruden",
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2002,
+      "end_year": 2008,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Jon Gruden",
+      "team": "Las Vegas Raiders",
+      "start_year": 2018,
+      "end_year": 2021,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Jon Gruden",
+      "team": "New Orleans Saints",
+      "start_year": 2023,
+      "end_year": 2023,
+      "role": "Consultant",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Jay Gruden",
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2002,
+      "end_year": 2008,
+      "role": "Offensive assistant",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Jay Gruden",
+      "team": "Cincinnati Bengals",
+      "start_year": 2011,
+      "end_year": 2013,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Jay Gruden",
+      "team": "Washington Redskins",
+      "start_year": 2014,
+      "end_year": 2019,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Jay Gruden",
+      "team": "Jacksonville Jaguars",
+      "start_year": 2020,
+      "end_year": 2020,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Jay Gruden",
+      "team": "Los Angeles Rams",
+      "start_year": 2022,
+      "end_year": 2022,
+      "role": "Consultant",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Mike Holmgren",
+      "team": "San Francisco 49ers",
+      "start_year": 1986,
+      "end_year": 1988,
+      "role": "Quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Mike Holmgren",
+      "team": "San Francisco 49ers",
+      "start_year": 1989,
+      "end_year": 1991,
+      "role": "Offensive coordinator & quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Mike Holmgren",
+      "team": "Green Bay Packers",
+      "start_year": 1992,
+      "end_year": 1998,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Mike Holmgren",
+      "team": "Seattle Seahawks",
+      "start_year": 1999,
+      "end_year": 2008,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "team": "Tampa Bay Buccaneers",
+      "start_year": 2004,
+      "end_year": 2005,
+      "role": "Offensive quality control coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "team": "Houston Texans",
+      "start_year": 2006,
+      "end_year": 2006,
+      "role": "Wide receivers coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "team": "Houston Texans",
+      "start_year": 2007,
+      "end_year": 2007,
+      "role": "Quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "team": "Houston Texans",
+      "start_year": 2008,
+      "end_year": 2009,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "team": "Washington Redskins",
+      "start_year": 2010,
+      "end_year": 2013,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "team": "Cleveland Browns",
+      "start_year": 2014,
+      "end_year": 2014,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "team": "Atlanta Falcons",
+      "start_year": 2015,
+      "end_year": 2016,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "team": "San Francisco 49ers",
+      "start_year": 2017,
+      "end_year": 9999,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Gary Kubiak",
+      "team": "San Francisco 49ers",
+      "start_year": 1994,
+      "end_year": 1994,
+      "role": "Quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Gary Kubiak",
+      "team": "Denver Broncos",
+      "start_year": 1995,
+      "end_year": 2002,
+      "role": "Offensive coordinator & quarterbacks coach",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Gary Kubiak",
+      "team": "Denver Broncos",
+      "start_year": 2003,
+      "end_year": 2005,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Gary Kubiak",
+      "team": "Houston Texans",
+      "start_year": 2006,
+      "end_year": 2013,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Gary Kubiak",
+      "team": "Baltimore Ravens",
+      "start_year": 2014,
+      "end_year": 2014,
+      "role": "Offensive coordinator",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Gary Kubiak",
+      "team": "Denver Broncos",
+      "start_year": 2015,
+      "end_year": 2016,
+      "role": "Head coach",
+      "is_head_coach": true
+    },
+    {
+      "coach": "Gary Kubiak",
+      "team": "Minnesota Vikings",
+      "start_year": 2019,
+      "end_year": 2019,
+      "role": "Assistant head coach & offensive advisor",
+      "is_head_coach": false
+    },
+    {
+      "coach": "Gary Kubiak",
+      "team": "Minnesota Vikings",
+      "start_year": 2020,
+      "end_year": 2020,
+      "role": "Assistant head coach & offensive coordinator",
+      "is_head_coach": false
+    }
+  ],
+  "edges": [
+    {
+      "coach": "Andy Reid",
+      "served_under": "Mike Holmgren",
+      "team": "Green Bay Packers",
+      "years": [
+        1992,
+        1993,
+        1994,
+        1995,
+        1996,
+        1997,
+        1998
+      ]
+    },
+    {
+      "coach": "Gary Kubiak",
+      "served_under": "Mike Shanahan",
+      "team": "Denver Broncos",
+      "years": [
+        1995,
+        1996,
+        1997,
+        1998,
+        1999,
+        2000,
+        2001,
+        2002,
+        2003,
+        2004,
+        2005
+      ]
+    },
+    {
+      "coach": "Jay Gruden",
+      "served_under": "Jon Gruden",
+      "team": "Tampa Bay Buccaneers",
+      "years": [
+        2002,
+        2003,
+        2004,
+        2005,
+        2006,
+        2007,
+        2008
+      ]
+    },
+    {
+      "coach": "Jay Gruden",
+      "served_under": "Sean McVay",
+      "team": "Los Angeles Rams",
+      "years": [
+        2022
+      ]
+    },
+    {
+      "coach": "Jon Gruden",
+      "served_under": "Mike Holmgren",
+      "team": "Green Bay Packers",
+      "years": [
+        1992,
+        1993,
+        1994
+      ]
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "served_under": "Dan Quinn",
+      "team": "Atlanta Falcons",
+      "years": [
+        2015,
+        2016
+      ]
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "served_under": "Gary Kubiak",
+      "team": "Houston Texans",
+      "years": [
+        2006,
+        2007,
+        2008,
+        2009
+      ]
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "served_under": "Jon Gruden",
+      "team": "Tampa Bay Buccaneers",
+      "years": [
+        2004,
+        2005
+      ]
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "served_under": "Mike Shanahan",
+      "team": "Washington Redskins",
+      "years": [
+        2010,
+        2011,
+        2012,
+        2013
+      ]
+    },
+    {
+      "coach": "Matt LaFleur",
+      "served_under": "Dan Quinn",
+      "team": "Atlanta Falcons",
+      "years": [
+        2015,
+        2016
+      ]
+    },
+    {
+      "coach": "Matt LaFleur",
+      "served_under": "Gary Kubiak",
+      "team": "Houston Texans",
+      "years": [
+        2008,
+        2009
+      ]
+    },
+    {
+      "coach": "Matt LaFleur",
+      "served_under": "Mike Shanahan",
+      "team": "Washington Redskins",
+      "years": [
+        2010,
+        2011,
+        2012,
+        2013
+      ]
+    },
+    {
+      "coach": "Matt LaFleur",
+      "served_under": "Sean McVay",
+      "team": "Los Angeles Rams",
+      "years": [
+        2017
+      ]
+    },
+    {
+      "coach": "Sean McVay",
+      "served_under": "Jay Gruden",
+      "team": "Washington Redskins",
+      "years": [
+        2014,
+        2015,
+        2016
+      ]
+    },
+    {
+      "coach": "Sean McVay",
+      "served_under": "Jon Gruden",
+      "team": "Tampa Bay Buccaneers",
+      "years": [
+        2008
+      ]
+    },
+    {
+      "coach": "Sean McVay",
+      "served_under": "Mike Shanahan",
+      "team": "Washington Redskins",
+      "years": [
+        2010,
+        2011,
+        2012,
+        2013
+      ]
+    }
+  ]
+}

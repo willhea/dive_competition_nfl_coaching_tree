@@ -1,0 +1,22 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Node / Vite
+node_modules/
+dive-preview/node_modules/
+dist/
+
+# Secrets
+.env
+dive-preview/.env
+
+# Bulk / regenerable artifacts
+# (115MB of full-res originals; we ship base64 thumbnails instead)
+dive-preview/public/faces/
+*.duckdb
+*.duckdb.wal
+
+# OS
+.DS_Store

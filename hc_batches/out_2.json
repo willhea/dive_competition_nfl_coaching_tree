@@ -1,0 +1,673 @@
+{
+  "Los Angeles Chargers": [
+    {
+      "coach": "Sid Gillman",
+      "start_year": 1960,
+      "end_year": 1960
+    },
+    {
+      "coach": "Sid Gillman",
+      "start_year": 1961,
+      "end_year": 1971
+    },
+    {
+      "coach": "Harland Svare",
+      "start_year": 1971,
+      "end_year": 1973
+    },
+    {
+      "coach": "Ron Waller",
+      "start_year": 1973,
+      "end_year": 1973
+    },
+    {
+      "coach": "Tommy Prothro",
+      "start_year": 1974,
+      "end_year": 1978
+    },
+    {
+      "coach": "Don Coryell",
+      "start_year": 1978,
+      "end_year": 1986
+    },
+    {
+      "coach": "Al Saunders",
+      "start_year": 1986,
+      "end_year": 1988
+    },
+    {
+      "coach": "Dan Henning",
+      "start_year": 1989,
+      "end_year": 1991
+    },
+    {
+      "coach": "Bobby Ross",
+      "start_year": 1992,
+      "end_year": 1996
+    },
+    {
+      "coach": "Kevin Gilbride",
+      "start_year": 1997,
+      "end_year": 1998
+    },
+    {
+      "coach": "June Jones",
+      "start_year": 1998,
+      "end_year": 1998
+    },
+    {
+      "coach": "Marty Schottenheimer",
+      "start_year": 2002,
+      "end_year": 2006
+    },
+    {
+      "coach": "Norv Turner",
+      "start_year": 2007,
+      "end_year": 2012
+    },
+    {
+      "coach": "Anthony Lynn",
+      "start_year": 2017,
+      "end_year": 2020
+    },
+    {
+      "coach": "Brandon Staley",
+      "start_year": 2021,
+      "end_year": 2023
+    },
+    {
+      "coach": "Giff Smith",
+      "start_year": 2023,
+      "end_year": 2023
+    },
+    {
+      "coach": "Jim Harbaugh",
+      "start_year": 2024,
+      "end_year": 9999
+    }
+  ],
+  "Tennessee Titans": [
+    {
+      "coach": "Lou Rymkus",
+      "start_year": 1960,
+      "end_year": 1961
+    },
+    {
+      "coach": "Wally Lemm",
+      "start_year": 1961,
+      "end_year": 1961
+    },
+    {
+      "coach": "Pop Ivy",
+      "start_year": 1962,
+      "end_year": 1963
+    },
+    {
+      "coach": "Sammy Baugh",
+      "start_year": 1964,
+      "end_year": 1964
+    },
+    {
+      "coach": "Wally Lemm",
+      "start_year": 1966,
+      "end_year": 1970
+    },
+    {
+      "coach": "Ed Hughes",
+      "start_year": 1971,
+      "end_year": 1971
+    },
+    {
+      "coach": "Bill Peterson",
+      "start_year": 1972,
+      "end_year": 1973
+    },
+    {
+      "coach": "Sid Gillman",
+      "start_year": 1973,
+      "end_year": 1974
+    },
+    {
+      "coach": "Bum Phillips",
+      "start_year": 1975,
+      "end_year": 1980
+    },
+    {
+      "coach": "Ed Biles",
+      "start_year": 1981,
+      "end_year": 1983
+    },
+    {
+      "coach": "Chuck Studley",
+      "start_year": 1983,
+      "end_year": 1983
+    },
+    {
+      "coach": "Hugh Campbell",
+      "start_year": 1984,
+      "end_year": 1985
+    },
+    {
+      "coach": "Jerry Glanville",
+      "start_year": 1985,
+      "end_year": 1989
+    },
+    {
+      "coach": "Jack Pardee",
+      "start_year": 1990,
+      "end_year": 1994
+    },
+    {
+      "coach": "Jeff Fisher",
+      "start_year": 1994,
+      "end_year": 1996
+    },
+    {
+      "coach": "Mike Munchak",
+      "start_year": 2011,
+      "end_year": 2013
+    },
+    {
+      "coach": "Ken Whisenhunt",
+      "start_year": 2014,
+      "end_year": 2015
+    },
+    {
+      "coach": "Mike Mularkey",
+      "start_year": 2015,
+      "end_year": 2017
+    },
+    {
+      "coach": "Mike Vrabel",
+      "start_year": 2018,
+      "end_year": 2023
+    },
+    {
+      "coach": "Brian Callahan",
+      "start_year": 2024,
+      "end_year": 2025
+    },
+    {
+      "coach": "Mike McCoy",
+      "start_year": 2024,
+      "end_year": 9999
+    },
+    {
+      "coach": "Robert Saleh",
+      "start_year": 2025,
+      "end_year": 9999
+    }
+  ],
+  "Denver Broncos": [
+    {
+      "coach": "Frank Filchock",
+      "start_year": 1960,
+      "end_year": 1961
+    },
+    {
+      "coach": "Jack Faulkner",
+      "start_year": 1962,
+      "end_year": 1964
+    },
+    {
+      "coach": "Mac Speedie",
+      "start_year": 1964,
+      "end_year": 1966
+    },
+    {
+      "coach": "Ray Malavasi",
+      "start_year": 1966,
+      "end_year": 1966
+    },
+    {
+      "coach": "Lou Saban",
+      "start_year": 1967,
+      "end_year": 1971
+    },
+    {
+      "coach": "Jerry Smith",
+      "start_year": 1971,
+      "end_year": 1971
+    },
+    {
+      "coach": "John Ralston",
+      "start_year": 1972,
+      "end_year": 1976
+    },
+    {
+      "coach": "Red Miller",
+      "start_year": 1977,
+      "end_year": 1980
+    },
+    {
+      "coach": "Dan Reeves",
+      "start_year": 1981,
+      "end_year": 1992
+    },
+    {
+      "coach": "Wade Phillips",
+      "start_year": 1993,
+      "end_year": 1994
+    },
+    {
+      "coach": "Mike Shanahan",
+      "start_year": 1995,
+      "end_year": 2008
+    },
+    {
+      "coach": "Josh McDaniels",
+      "start_year": 2009,
+      "end_year": 2010
+    },
+    {
+      "coach": "Eric Studesville",
+      "start_year": 2010,
+      "end_year": 2010
+    },
+    {
+      "coach": "John Fox",
+      "start_year": 2011,
+      "end_year": 2014
+    },
+    {
+      "coach": "Gary Kubiak",
+      "start_year": 2015,
+      "end_year": 2016
+    },
+    {
+      "coach": "Vance Joseph",
+      "start_year": 2017,
+      "end_year": 2018
+    },
+    {
+      "coach": "Vic Fangio",
+      "start_year": 2019,
+      "end_year": 2021
+    },
+    {
+      "coach": "Nathaniel Hackett",
+      "start_year": 2022,
+      "end_year": 2022
+    },
+    {
+      "coach": "Jerry Rosburg",
+      "start_year": 2022,
+      "end_year": 2022
+    },
+    {
+      "coach": "Sean Payton",
+      "start_year": 2023,
+      "end_year": 9999
+    }
+  ],
+  "Kansas City Chiefs": [
+    {
+      "coach": "Hank Stram",
+      "start_year": 1960,
+      "end_year": 1962
+    },
+    {
+      "coach": "Hank Stram",
+      "start_year": 1963,
+      "end_year": 1974
+    },
+    {
+      "coach": "Paul Wiggin",
+      "start_year": 1975,
+      "end_year": 1977
+    },
+    {
+      "coach": "Tom Bettis",
+      "start_year": 1977,
+      "end_year": 1977
+    },
+    {
+      "coach": "Marv Levy",
+      "start_year": 1978,
+      "end_year": 1982
+    },
+    {
+      "coach": "John Mackovic",
+      "start_year": 1983,
+      "end_year": 1986
+    },
+    {
+      "coach": "Frank Gansz",
+      "start_year": 1987,
+      "end_year": 1988
+    },
+    {
+      "coach": "Marty Schottenheimer",
+      "start_year": 1989,
+      "end_year": 1998
+    },
+    {
+      "coach": "Gunther Cunningham",
+      "start_year": 1999,
+      "end_year": 2000
+    },
+    {
+      "coach": "Dick Vermeil",
+      "start_year": 2001,
+      "end_year": 2005
+    },
+    {
+      "coach": "Herm Edwards",
+      "start_year": 2006,
+      "end_year": 2008
+    },
+    {
+      "coach": "Todd Haley",
+      "start_year": 2009,
+      "end_year": 2011
+    },
+    {
+      "coach": "Romeo Crennel",
+      "start_year": 2009,
+      "end_year": 2011
+    },
+    {
+      "coach": "Romeo Crennel",
+      "start_year": 2011,
+      "end_year": 2012
+    },
+    {
+      "coach": "Andy Reid",
+      "start_year": 2013,
+      "end_year": 9999
+    }
+  ],
+  "Green Bay Packers": [
+    {
+      "coach": "Curly Lambeau",
+      "start_year": 1921,
+      "end_year": 1949
+    },
+    {
+      "coach": "Gene Ronzani",
+      "start_year": 1950,
+      "end_year": 1953
+    },
+    {
+      "coach": "Hugh Devore",
+      "start_year": 1953,
+      "end_year": 1953
+    },
+    {
+      "coach": "Ray McLean",
+      "start_year": 1954,
+      "end_year": 1957
+    },
+    {
+      "coach": "Lisle Blackbourn",
+      "start_year": 1954,
+      "end_year": 1957
+    },
+    {
+      "coach": "Ray McLean",
+      "start_year": 1958,
+      "end_year": 1958
+    },
+    {
+      "coach": "Vince Lombardi",
+      "start_year": 1959,
+      "end_year": 1967
+    },
+    {
+      "coach": "Phil Bengtson",
+      "start_year": 1968,
+      "end_year": 1970
+    },
+    {
+      "coach": "Dan Devine",
+      "start_year": 1971,
+      "end_year": 1974
+    },
+    {
+      "coach": "Bart Starr",
+      "start_year": 1975,
+      "end_year": 1983
+    },
+    {
+      "coach": "Forrest Gregg",
+      "start_year": 1984,
+      "end_year": 1987
+    },
+    {
+      "coach": "Lindy Infante",
+      "start_year": 1988,
+      "end_year": 1991
+    },
+    {
+      "coach": "Mike Holmgren",
+      "start_year": 1992,
+      "end_year": 1998
+    },
+    {
+      "coach": "Ray Rhodes",
+      "start_year": 1999,
+      "end_year": 1999
+    },
+    {
+      "coach": "Mike Sherman",
+      "start_year": 2000,
+      "end_year": 2005
+    },
+    {
+      "coach": "Mike McCarthy",
+      "start_year": 2006,
+      "end_year": 2018
+    },
+    {
+      "coach": "Joe Philbin",
+      "start_year": 2018,
+      "end_year": 2018
+    },
+    {
+      "coach": "Matt LaFleur",
+      "start_year": 2019,
+      "end_year": 9999
+    }
+  ],
+  "Chicago Bears": [
+    {
+      "coach": "Ralph Jones",
+      "start_year": 1930,
+      "end_year": 1932
+    },
+    {
+      "coach": "George Halas",
+      "start_year": 1933,
+      "end_year": 1942
+    },
+    {
+      "coach": "Luke Johnsos",
+      "start_year": 1942,
+      "end_year": 1945
+    },
+    {
+      "coach": "George Halas",
+      "start_year": 1946,
+      "end_year": 1955
+    },
+    {
+      "coach": "Paddy Driscoll",
+      "start_year": 1956,
+      "end_year": 1957
+    },
+    {
+      "coach": "George Halas",
+      "start_year": 1958,
+      "end_year": 1967
+    },
+    {
+      "coach": "Jim Dooley",
+      "start_year": 1968,
+      "end_year": 1971
+    },
+    {
+      "coach": "Abe Gibron",
+      "start_year": 1972,
+      "end_year": 1974
+    },
+    {
+      "coach": "Jack Pardee",
+      "start_year": 1975,
+      "end_year": 1977
+    },
+    {
+      "coach": "Neill Armstrong",
+      "start_year": 1978,
+      "end_year": 1981
+    },
+    {
+      "coach": "Mike Ditka",
+      "start_year": 1982,
+      "end_year": 1992
+    },
+    {
+      "coach": "Dave Wannstedt",
+      "start_year": 1993,
+      "end_year": 1998
+    },
+    {
+      "coach": "Dick Jauron",
+      "start_year": 1999,
+      "end_year": 2003
+    },
+    {
+      "coach": "Lovie Smith",
+      "start_year": 2004,
+      "end_year": 2012
+    },
+    {
+      "coach": "Marc Trestman",
+      "start_year": 2013,
+      "end_year": 2014
+    },
+    {
+      "coach": "Matt Nagy",
+      "start_year": 2018,
+      "end_year": 2021
+    },
+    {
+      "coach": "Thomas Brown",
+      "start_year": 2022,
+      "end_year": 9999
+    },
+    {
+      "coach": "Matt Eberflus",
+      "start_year": 2022,
+      "end_year": 2024
+    }
+  ],
+  "Carolina Panthers": [
+    {
+      "coach": "Dom Capers",
+      "start_year": 1995,
+      "end_year": 2001
+    },
+    {
+      "coach": "George Seifert",
+      "start_year": 1999,
+      "end_year": 2010
+    },
+    {
+      "coach": "John Fox",
+      "start_year": 1999,
+      "end_year": 2010
+    },
+    {
+      "coach": "Ron Rivera",
+      "start_year": 2003,
+      "end_year": 2019
+    },
+    {
+      "coach": "Perry Fewell",
+      "start_year": 2019,
+      "end_year": 2022
+    },
+    {
+      "coach": "Matt Rhule",
+      "start_year": 2019,
+      "end_year": 2022
+    },
+    {
+      "coach": "Steve Wilks",
+      "start_year": 2022,
+      "end_year": 2023
+    },
+    {
+      "coach": "Frank Reich",
+      "start_year": 2022,
+      "end_year": 2023
+    },
+    {
+      "coach": "Chris Tabor",
+      "start_year": 2024,
+      "end_year": 9999
+    },
+    {
+      "coach": "Dave Canales",
+      "start_year": 2024,
+      "end_year": 9999
+    }
+  ],
+  "Minnesota Vikings": [
+    {
+      "coach": "Norm Van Brocklin",
+      "start_year": 1961,
+      "end_year": 1966
+    },
+    {
+      "coach": "Bud Grant",
+      "start_year": 1961,
+      "end_year": 1983
+    },
+    {
+      "coach": "Les Steckel",
+      "start_year": 1984,
+      "end_year": 1985
+    },
+    {
+      "coach": "Bud Grant",
+      "start_year": 1984,
+      "end_year": 1991
+    },
+    {
+      "coach": "Jerry Burns",
+      "start_year": 1985,
+      "end_year": 1991
+    },
+    {
+      "coach": "Dennis Green",
+      "start_year": 1992,
+      "end_year": 2001
+    },
+    {
+      "coach": "Mike Tice",
+      "start_year": 2001,
+      "end_year": 2010
+    },
+    {
+      "coach": "Brad Childress",
+      "start_year": 2001,
+      "end_year": 2010
+    },
+    {
+      "coach": "Leslie Frazier",
+      "start_year": 2010,
+      "end_year": 2013
+    },
+    {
+      "coach": "Mike Zimmer",
+      "start_year": 2014,
+      "end_year": 2021
+    },
+    {
+      "coach": "Kevin O'Connell",
+      "start_year": 2022,
+      "end_year": 9999
+    }
+  ]
+}
