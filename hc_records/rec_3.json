@@ -1,0 +1,989 @@
+{
+  "Arizona Cardinals": [
+    {
+      "coach": "Paddy Driscoll",
+      "wins": 17,
+      "losses": 8,
+      "ties": 4
+    },
+    {
+      "coach": "Arnold Horween",
+      "wins": 13,
+      "losses": 8,
+      "ties": 1
+    },
+    {
+      "coach": "Norman Barry",
+      "wins": 16,
+      "losses": 8,
+      "ties": 2
+    },
+    {
+      "coach": "Guy Chamberlin",
+      "wins": 3,
+      "losses": 7,
+      "ties": 1
+    },
+    {
+      "coach": "Fred Gillies",
+      "wins": 1,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "coach": "Dewey Scanlon",
+      "wins": 6,
+      "losses": 6,
+      "ties": 1
+    },
+    {
+      "coach": "Ernie Nevers",
+      "wins": 10,
+      "losses": 9,
+      "ties": 2
+    },
+    {
+      "coach": "Roy Andrews",
+      "wins": 1,
+      "losses": 0,
+      "ties": 1
+    },
+    {
+      "coach": "Jack Chevigny",
+      "wins": 2,
+      "losses": 6,
+      "ties": 2
+    },
+    {
+      "coach": "Paul Schissler",
+      "wins": 6,
+      "losses": 15,
+      "ties": 1
+    },
+    {
+      "coach": "Milan Creighton",
+      "wins": 16,
+      "losses": 26,
+      "ties": 4
+    },
+    {
+      "coach": "Ernie Nevers",
+      "wins": 1,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "coach": "Jimmy Conzelman",
+      "wins": 8,
+      "losses": 22,
+      "ties": 3
+    },
+    {
+      "coach": "Phil Handler",
+      "wins": 0,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "coach": "Phil Handler",
+      "wins": 0,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "coach": "Phil Handler",
+      "wins": 1,
+      "losses": 9,
+      "ties": 0
+    },
+    {
+      "coach": "Jimmy Conzelman",
+      "wins": 26,
+      "losses": 9,
+      "ties": 0
+    },
+    {
+      "coach": "Buddy Parker",
+      "wins": 6,
+      "losses": 5,
+      "ties": 1
+    },
+    {
+      "coach": "Curly Lambeau",
+      "wins": 7,
+      "losses": 15,
+      "ties": 0
+    },
+    {
+      "coach": "Cecil Isbell",
+      "wins": 2,
+      "losses": 1,
+      "ties": 1
+    },
+    {
+      "coach": "Joe Kuharich",
+      "wins": 4,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "coach": "Joe Stydahar",
+      "wins": 3,
+      "losses": 20,
+      "ties": 1
+    },
+    {
+      "coach": "Ray Richards",
+      "wins": 14,
+      "losses": 21,
+      "ties": 1
+    },
+    {
+      "coach": "Pop Ivy",
+      "wins": 15,
+      "losses": 31,
+      "ties": 2
+    },
+    {
+      "coach": "Ray Willsey",
+      "wins": 2,
+      "losses": 2,
+      "ties": 0
+    },
+    {
+      "coach": "Wally Lemm",
+      "wins": 27,
+      "losses": 26,
+      "ties": 3
+    },
+    {
+      "coach": "Charley Winner",
+      "wins": 35,
+      "losses": 30,
+      "ties": 5
+    },
+    {
+      "coach": "Bob Hollway",
+      "wins": 8,
+      "losses": 18,
+      "ties": 2
+    },
+    {
+      "coach": "Don Coryell",
+      "wins": 42,
+      "losses": 27,
+      "ties": 1
+    },
+    {
+      "coach": "Bud Wilkinson",
+      "wins": 9,
+      "losses": 20,
+      "ties": 0
+    },
+    {
+      "coach": "Larry Wilson",
+      "wins": 3,
+      "losses": 2,
+      "ties": 1
+    },
+    {
+      "coach": "Jim Hanifan",
+      "wins": 39,
+      "losses": 49,
+      "ties": 1
+    },
+    {
+      "coach": "Gene Stallings",
+      "wins": 23,
+      "losses": 34,
+      "ties": 1
+    },
+    {
+      "coach": "Hank Kuhlmann",
+      "wins": 0,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "coach": "Joe Bugel",
+      "wins": 20,
+      "losses": 44,
+      "ties": 0
+    },
+    {
+      "coach": "Buddy Ryan",
+      "wins": 12,
+      "losses": 20,
+      "ties": 0
+    },
+    {
+      "coach": "Vince Tobin",
+      "wins": 28,
+      "losses": 43,
+      "ties": 0
+    },
+    {
+      "coach": "Dave McGinnis",
+      "wins": 17,
+      "losses": 40,
+      "ties": 0
+    },
+    {
+      "coach": "Dennis Green",
+      "wins": 16,
+      "losses": 32,
+      "ties": 0
+    },
+    {
+      "coach": "Ken Whisenhunt",
+      "wins": 45,
+      "losses": 51,
+      "ties": 0
+    },
+    {
+      "coach": "Bruce Arians",
+      "wins": 49,
+      "losses": 30,
+      "ties": 1
+    },
+    {
+      "coach": "Steve Wilks",
+      "wins": 3,
+      "losses": 13,
+      "ties": 0
+    },
+    {
+      "coach": "Kliff Kingsbury",
+      "wins": 28,
+      "losses": 37,
+      "ties": 1
+    },
+    {
+      "coach": "Jonathan Gannon",
+      "wins": 15,
+      "losses": 36,
+      "ties": 0
+    },
+    {
+      "coach": "Mike LaFleur",
+      "wins": 0,
+      "losses": 0,
+      "ties": 0
+    }
+  ],
+  "Atlanta Falcons": [
+    {
+      "coach": "Norb Hecker",
+      "wins": 4,
+      "losses": 26,
+      "ties": 1
+    },
+    {
+      "coach": "Norm Van Brocklin",
+      "wins": 37,
+      "losses": 49,
+      "ties": 3
+    },
+    {
+      "coach": "Marion Campbell",
+      "wins": 6,
+      "losses": 19,
+      "ties": 0
+    },
+    {
+      "coach": "Pat Peppler",
+      "wins": 3,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "coach": "Leeman Bennett",
+      "wins": 46,
+      "losses": 41,
+      "ties": 0
+    },
+    {
+      "coach": "Dan Henning",
+      "wins": 22,
+      "losses": 41,
+      "ties": 1
+    },
+    {
+      "coach": "Marion Campbell",
+      "wins": 11,
+      "losses": 32,
+      "ties": 0
+    },
+    {
+      "coach": "Jim Hanifan",
+      "wins": 4,
+      "losses": 0,
+      "ties": 4
+    },
+    {
+      "coach": "Jerry Glanville",
+      "wins": 27,
+      "losses": 37,
+      "ties": 0
+    },
+    {
+      "coach": "June Jones",
+      "wins": 19,
+      "losses": 29,
+      "ties": 0
+    },
+    {
+      "coach": "Dan Reeves",
+      "wins": 49,
+      "losses": 59,
+      "ties": 1
+    },
+    {
+      "coach": "Wade Phillips",
+      "wins": 3,
+      "losses": 2,
+      "ties": 1
+    },
+    {
+      "coach": "Jim L. Mora",
+      "wins": 26,
+      "losses": 22,
+      "ties": 0
+    },
+    {
+      "coach": "Bobby Petrino",
+      "wins": 3,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "coach": "Emmitt Thomas",
+      "wins": 1,
+      "losses": 3,
+      "ties": 1
+    },
+    {
+      "coach": "Mike Smith",
+      "wins": 66,
+      "losses": 46,
+      "ties": 0
+    },
+    {
+      "coach": "Dan Quinn",
+      "wins": 43,
+      "losses": 42,
+      "ties": 0
+    },
+    {
+      "coach": "Raheem Morris",
+      "wins": 4,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "coach": "Arthur Smith",
+      "wins": 21,
+      "losses": 30,
+      "ties": 0
+    },
+    {
+      "coach": "Raheem Morris",
+      "wins": 16,
+      "losses": 18,
+      "ties": 0
+    },
+    {
+      "coach": "Kevin Stefanski",
+      "wins": 0,
+      "losses": 0,
+      "ties": 0
+    }
+  ],
+  "Detroit Lions": [
+    {
+      "coach": "Hal Griffen",
+      "wins": 5,
+      "losses": 6,
+      "ties": 3
+    },
+    {
+      "coach": "George \"Potsy\" Clark",
+      "wins": 48,
+      "losses": 20,
+      "ties": 6
+    },
+    {
+      "coach": "George \"Potsy\" Clark",
+      "wins": 5,
+      "losses": 5,
+      "ties": 1
+    },
+    {
+      "coach": "Bo McMillin",
+      "wins": 12,
+      "losses": 24,
+      "ties": 0
+    },
+    {
+      "coach": "Buddy Parker",
+      "wins": 47,
+      "losses": 23,
+      "ties": 2
+    },
+    {
+      "coach": "George Wilson",
+      "wins": 53,
+      "losses": 45,
+      "ties": 6
+    },
+    {
+      "coach": "Don McCafferty",
+      "wins": 6,
+      "losses": 7,
+      "ties": 1
+    },
+    {
+      "coach": "Monte Clark",
+      "wins": 43,
+      "losses": 61,
+      "ties": 1
+    },
+    {
+      "coach": "Bobby Ross",
+      "wins": 27,
+      "losses": 30,
+      "ties": 0
+    },
+    {
+      "coach": "Steve Mariucci",
+      "wins": 15,
+      "losses": 28,
+      "ties": 0
+    },
+    {
+      "coach": "Dick Jauron",
+      "wins": 1,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "coach": "Jim Caldwell",
+      "wins": 36,
+      "losses": 28,
+      "ties": 0
+    },
+    {
+      "coach": "Darrell Bevell",
+      "wins": 4,
+      "losses": 1,
+      "ties": 3
+    },
+    {
+      "coach": "Dan Campbell",
+      "wins": 48,
+      "losses": 36,
+      "ties": 1
+    }
+  ],
+  "Los Angeles Rams": [
+    {
+      "coach": "Damon Wetzel",
+      "wins": 5,
+      "losses": 2,
+      "ties": 2
+    },
+    {
+      "coach": "Hugo Bezdek",
+      "wins": 1,
+      "losses": 13,
+      "ties": 0
+    },
+    {
+      "coach": "Art Lewis",
+      "wins": 4,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "coach": "Dutch Clark",
+      "wins": 16,
+      "losses": 26,
+      "ties": 2
+    },
+    {
+      "coach": "Aldo Donelli",
+      "wins": 4,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "coach": "Adam Walsh",
+      "wins": 15,
+      "losses": 5,
+      "ties": 1
+    },
+    {
+      "coach": "Bob Snyder",
+      "wins": 6,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "coach": "Clark Shaughnessy",
+      "wins": 14,
+      "losses": 7,
+      "ties": 3
+    },
+    {
+      "coach": "Joe Stydahar",
+      "wins": 17,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "coach": "Hamp Pool",
+      "wins": 23,
+      "losses": 10,
+      "ties": 2
+    },
+    {
+      "coach": "Sid Gillman",
+      "wins": 28,
+      "losses": 31,
+      "ties": 1
+    },
+    {
+      "coach": "Bob Waterfield",
+      "wins": 9,
+      "losses": 24,
+      "ties": 1
+    },
+    {
+      "coach": "Harland Svare",
+      "wins": 14,
+      "losses": 31,
+      "ties": 8
+    },
+    {
+      "coach": "George Allen",
+      "wins": 49,
+      "losses": 17,
+      "ties": 4
+    },
+    {
+      "coach": "Tommy Prothro",
+      "wins": 14,
+      "losses": 12,
+      "ties": 2
+    },
+    {
+      "coach": "Chuck Knox",
+      "wins": 54,
+      "losses": 15,
+      "ties": 1
+    },
+    {
+      "coach": "Ray Malavasi",
+      "wins": 40,
+      "losses": 33,
+      "ties": 0
+    },
+    {
+      "coach": "John Robinson",
+      "wins": 75,
+      "losses": 68,
+      "ties": 0
+    },
+    {
+      "coach": "Chuck Knox",
+      "wins": 15,
+      "losses": 33,
+      "ties": 0
+    },
+    {
+      "coach": "Rich Brooks",
+      "wins": 13,
+      "losses": 19,
+      "ties": 0
+    },
+    {
+      "coach": "Dick Vermeil",
+      "wins": 22,
+      "losses": 26,
+      "ties": 0
+    },
+    {
+      "coach": "Mike Martz",
+      "wins": 53,
+      "losses": 32,
+      "ties": 0
+    },
+    {
+      "coach": "Joe Vitt",
+      "wins": 4,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "coach": "Scott Linehan",
+      "wins": 11,
+      "losses": 25,
+      "ties": 0
+    },
+    {
+      "coach": "Jim Haslett",
+      "wins": 2,
+      "losses": 10,
+      "ties": 0
+    },
+    {
+      "coach": "Steve Spagnuolo",
+      "wins": 10,
+      "losses": 38,
+      "ties": 0
+    },
+    {
+      "coach": "Jeff Fisher",
+      "wins": 31,
+      "losses": 45,
+      "ties": 1
+    },
+    {
+      "coach": "John Fassel",
+      "wins": 3,
+      "losses": 0,
+      "ties": 3
+    },
+    {
+      "coach": "Sean McVay",
+      "wins": 92,
+      "losses": 57,
+      "ties": 0
+    }
+  ],
+  "New Orleans Saints": [
+    {
+      "coach": "Tom Fears",
+      "wins": 13,
+      "losses": 34,
+      "ties": 2
+    },
+    {
+      "coach": "J. D. Roberts",
+      "wins": 7,
+      "losses": 25,
+      "ties": 3
+    },
+    {
+      "coach": "John North",
+      "wins": 11,
+      "losses": 23,
+      "ties": 0
+    },
+    {
+      "coach": "Ernie Hefferle",
+      "wins": 1,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "coach": "Hank Stram",
+      "wins": 7,
+      "losses": 21,
+      "ties": 0
+    },
+    {
+      "coach": "Dick Nolan",
+      "wins": 15,
+      "losses": 29,
+      "ties": 0
+    },
+    {
+      "coach": "Dick Stanfel",
+      "wins": 4,
+      "losses": 1,
+      "ties": 3
+    },
+    {
+      "coach": "Bum Phillips",
+      "wins": 27,
+      "losses": 42,
+      "ties": 0
+    },
+    {
+      "coach": "Wade Phillips",
+      "wins": 4,
+      "losses": 1,
+      "ties": 3
+    },
+    {
+      "coach": "Jim E. Mora",
+      "wins": 93,
+      "losses": 74,
+      "ties": 0
+    },
+    {
+      "coach": "Rick Venturi",
+      "wins": 1,
+      "losses": 7,
+      "ties": 0
+    },
+    {
+      "coach": "Mike Ditka",
+      "wins": 15,
+      "losses": 33,
+      "ties": 0
+    },
+    {
+      "coach": "Jim Haslett",
+      "wins": 45,
+      "losses": 51,
+      "ties": 0
+    },
+    {
+      "coach": "Sean Payton",
+      "wins": 152,
+      "losses": 89,
+      "ties": 0
+    },
+    {
+      "coach": "Aaron Kromer",
+      "wins": 2,
+      "losses": 4,
+      "ties": 0
+    },
+    {
+      "coach": "Joe Vitt",
+      "wins": 5,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "coach": "Dennis Allen",
+      "wins": 18,
+      "losses": 25,
+      "ties": 0
+    },
+    {
+      "coach": "Darren Rizzi",
+      "wins": 3,
+      "losses": 5,
+      "ties": 0
+    },
+    {
+      "coach": "Kellen Moore",
+      "wins": 6,
+      "losses": 11,
+      "ties": 0
+    }
+  ],
+  "San Francisco 49ers": [
+    {
+      "coach": "Buck Shaw",
+      "wins": 71,
+      "losses": 39,
+      "ties": 4
+    },
+    {
+      "coach": "Red Strader",
+      "wins": 4,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "coach": "Frankie Albert",
+      "wins": 19,
+      "losses": 16,
+      "ties": 1
+    },
+    {
+      "coach": "Red Hickey",
+      "wins": 27,
+      "losses": 27,
+      "ties": 1
+    },
+    {
+      "coach": "Jack Christiansen",
+      "wins": 26,
+      "losses": 38,
+      "ties": 3
+    },
+    {
+      "coach": "Dick Nolan",
+      "wins": 54,
+      "losses": 53,
+      "ties": 5
+    },
+    {
+      "coach": "Monte Clark",
+      "wins": 8,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "coach": "Ken Meyer",
+      "wins": 5,
+      "losses": 9,
+      "ties": 0
+    },
+    {
+      "coach": "Pete McCulley",
+      "wins": 1,
+      "losses": 8,
+      "ties": 0
+    },
+    {
+      "coach": "Fred O'Connor",
+      "wins": 1,
+      "losses": 6,
+      "ties": 0
+    },
+    {
+      "coach": "Bill Walsh",
+      "wins": 92,
+      "losses": 59,
+      "ties": 1
+    },
+    {
+      "coach": "George Seifert",
+      "wins": 98,
+      "losses": 30,
+      "ties": 0
+    },
+    {
+      "coach": "Steve Mariucci",
+      "wins": 57,
+      "losses": 39,
+      "ties": 0
+    },
+    {
+      "coach": "Dennis Erickson",
+      "wins": 9,
+      "losses": 23,
+      "ties": 0
+    },
+    {
+      "coach": "Mike Nolan",
+      "wins": 18,
+      "losses": 37,
+      "ties": 0
+    },
+    {
+      "coach": "Mike Singletary",
+      "wins": 18,
+      "losses": 22,
+      "ties": 0
+    },
+    {
+      "coach": "Jim Tomsula",
+      "wins": 1,
+      "losses": 1,
+      "ties": 0
+    },
+    {
+      "coach": "Jim Harbaugh",
+      "wins": 44,
+      "losses": 19,
+      "ties": 1
+    },
+    {
+      "coach": "Jim Tomsula",
+      "wins": 5,
+      "losses": 11,
+      "ties": 0
+    },
+    {
+      "coach": "Chip Kelly",
+      "wins": 2,
+      "losses": 14,
+      "ties": 0
+    },
+    {
+      "coach": "Kyle Shanahan",
+      "wins": 82,
+      "losses": 66,
+      "ties": 0
+    }
+  ],
+  "Seattle Seahawks": [],
+  "Tampa Bay Buccaneers": [
+    {
+      "coach": "John McKay",
+      "wins": 44,
+      "losses": 88,
+      "ties": 1
+    },
+    {
+      "coach": "Leeman Bennett",
+      "wins": 4,
+      "losses": 28,
+      "ties": 0
+    },
+    {
+      "coach": "Ray Perkins",
+      "wins": 19,
+      "losses": 41,
+      "ties": 0
+    },
+    {
+      "coach": "Richard Williamson",
+      "wins": 4,
+      "losses": 15,
+      "ties": 0
+    },
+    {
+      "coach": "Sam Wyche",
+      "wins": 23,
+      "losses": 41,
+      "ties": 0
+    },
+    {
+      "coach": "Tony Dungy",
+      "wins": 54,
+      "losses": 42,
+      "ties": 0
+    },
+    {
+      "coach": "Jon Gruden",
+      "wins": 57,
+      "losses": 55,
+      "ties": 0
+    },
+    {
+      "coach": "Raheem Morris",
+      "wins": 17,
+      "losses": 31,
+      "ties": 0
+    },
+    {
+      "coach": "Greg Schiano",
+      "wins": 11,
+      "losses": 21,
+      "ties": 0
+    },
+    {
+      "coach": "Lovie Smith",
+      "wins": 8,
+      "losses": 24,
+      "ties": 0
+    },
+    {
+      "coach": "Dirk Koetter",
+      "wins": 19,
+      "losses": 29,
+      "ties": 0
+    },
+    {
+      "coach": "Bruce Arians",
+      "wins": 31,
+      "losses": 18,
+      "ties": 0
+    },
+    {
+      "coach": "Todd Bowles",
+      "wins": 35,
+      "losses": 33,
+      "ties": 0
+    }
+  ]
+}

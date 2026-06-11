@@ -1,0 +1,164 @@
+{
+  "Bill Parcells": {
+    "hc_wins": 172,
+    "hc_losses": 130,
+    "hc_ties": 1,
+    "super_bowl_rings": 2
+  },
+  "Anthony Weaver": {
+    "hc_wins": null,
+    "hc_losses": null,
+    "hc_ties": null,
+    "super_bowl_rings": 0
+  },
+  "Andy Reid": {
+    "hc_wins": 279,
+    "hc_losses": 157,
+    "hc_ties": 1,
+    "super_bowl_rings": 3
+  },
+  "Antonio Pierce": {
+    "hc_wins": 9,
+    "hc_losses": 17,
+    "hc_ties": 0,
+    "super_bowl_rings": 1
+  },
+  "Aaron Glenn": {
+    "hc_wins": 3,
+    "hc_losses": 14,
+    "hc_ties": 0,
+    "super_bowl_rings": 0
+  },
+  "Bobby Petrino": {
+    "hc_wins": null,
+    "hc_losses": null,
+    "hc_ties": null,
+    "super_bowl_rings": 0
+  },
+  "Brad Childress": {
+    "hc_wins": 39,
+    "hc_losses": 35,
+    "hc_ties": 0,
+    "super_bowl_rings": 0
+  },
+  "Al Golden": {
+    "hc_wins": 59,
+    "hc_losses": 59,
+    "hc_ties": 0,
+    "super_bowl_rings": 0
+  },
+  "Adam Stenavich": {
+    "hc_wins": null,
+    "hc_losses": null,
+    "hc_ties": null,
+    "super_bowl_rings": 0
+  },
+  "Anthony Lynn": {
+    "hc_wins": 33,
+    "hc_losses": 32,
+    "hc_ties": 0,
+    "super_bowl_rings": 2
+  },
+  "Aaron Kromer": {
+    "hc_wins": 2,
+    "hc_losses": 4,
+    "hc_ties": 0,
+    "super_bowl_rings": 1
+  },
+  "Aden Durde": {
+    "hc_wins": null,
+    "hc_losses": null,
+    "hc_ties": null,
+    "super_bowl_rings": 1
+  },
+  "Anthony Campanile": {
+    "hc_wins": null,
+    "hc_losses": null,
+    "hc_ties": null,
+    "super_bowl_rings": 0
+  },
+  "Brian Angelichio": {
+    "hc_wins": null,
+    "hc_losses": null,
+    "hc_ties": null,
+    "super_bowl_rings": 0
+  },
+  "Brian Callahan": {
+    "hc_wins": 4,
+    "hc_losses": 19,
+    "hc_ties": 0,
+    "super_bowl_rings": 1
+  },
+  "Brandon Staley": {
+    "hc_wins": 24,
+    "hc_losses": 24,
+    "hc_ties": 0,
+    "super_bowl_rings": 0
+  },
+  "Andrew Janocko": {
+    "hc_wins": null,
+    "hc_losses": null,
+    "hc_ties": null,
+    "super_bowl_rings": 1
+  },
+  "Bobby Slowik": {
+    "hc_wins": null,
+    "hc_losses": null,
+    "hc_ties": null,
+    "super_bowl_rings": 0
+  },
+  "Brad Idzik": {
+    "hc_wins": null,
+    "hc_losses": null,
+    "hc_ties": null,
+    "super_bowl_rings": 0
+  },
+  "Darrell Bevell": {
+    "hc_wins": 2,
+    "hc_losses": 7,
+    "hc_ties": 0,
+    "super_bowl_rings": 1
+  },
+  "Butch Davis": {
+    "hc_wins": 24,
+    "hc_losses": 35,
+    "hc_ties": 0,
+    "super_bowl_rings": 0
+  },
+  "Dan Campbell": {
+    "hc_wins": 52,
+    "hc_losses": 43,
+    "hc_ties": 1,
+    "super_bowl_rings": 0
+  },
+  "Brian Schottenheimer": {
+    "hc_wins": 7,
+    "hc_losses": 9,
+    "hc_ties": 1,
+    "super_bowl_rings": 0
+  },
+  "Bruce Arians": {
+    "hc_wins": 80,
+    "hc_losses": 48,
+    "hc_ties": 1,
+    "super_bowl_rings": 1
+  },
+  "Brian Daboll": {
+    "hc_wins": 20,
+    "hc_losses": 40,
+    "hc_ties": 1,
+    "super_bowl_rings": 5
+  },
+  "Christian Parker": {
+    "hc_wins": null,
+    "hc_losses": null,
+    "hc_ties": null,
+    "super_bowl_rings": 0
+  },
+  "Chuck Pagano": {
+    "hc_wins": 53,
+    "hc_losses": 43,
+    "hc_ties": 0,
+    "super_bowl_rings": 0
+  }
+}

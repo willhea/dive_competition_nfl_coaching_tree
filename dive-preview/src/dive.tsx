@@ -27,6 +27,13 @@ const winPct = (c: Coach) =>
     ? (c.hc_wins / (c.hc_wins + (c.hc_losses ?? 0))).toFixed(3).replace(/^0/, "")
     : null;
 const yrs = (a: number, b: number) => (b >= 9999 ? `${a}–present` : a === b ? `${a}` : `${a}–${b}`);
+// distinct, readable on both the dark 3D and light 2D backgrounds
+const LINEAGE_PALETTE = ["#ff7f0e", "#1f9e89", "#e4b400", "#2e7fd0", "#9b5de5", "#e36bae", "#d6336c", "#3bb273"];
+const LINEAGE_OTHER = "#8a8a8a";
+const hexA = (hex: string, a: number) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
+};
 
 export default function CoachingTree() {
   const coachesQ = useSQLQuery<Coach[]>(`SELECT name, image_b64, is_roster, is_nfl_hc, hc_wins, hc_losses, hc_ties, super_bowl_rings FROM nfl_coaching_tree.coaches`);
@@ -38,6 +45,7 @@ export default function CoachingTree() {
   const loading = coachesQ.isLoading || edgesQ.isLoading || stintsQ.isLoading;
 
   const [render, setRender] = useState<"3d" | "2d">("3d");
+  const [colorBy, setColorBy] = useState<"lineage" | "role">("lineage");
   const [focusId, setFocusId] = useState<string | null>(null);
   const [history, setHistory] = useState<string[]>([]);
   const [depth, setDepth] = useState<1 | 2>(1);
@@ -92,6 +100,32 @@ export default function CoachingTree() {
     return { nodes, links };
   }, [coaches, edges, hcSet]);
 
+  // Lineage roots: collapse the tangled mentor DAG into a single-parent forest by
+  // giving each coach their *primary* mentor (the HC they served under for the most
+  // years; ties → earliest, then name). Walking that chain up yields one founding
+  // root per coach — the canonical way NFL coaching trees are drawn.
+  const lineage = useMemo(() => {
+    const parent = new Map<string, string>();
+    for (const [coach, ms] of mentorsOf) {
+      const best = [...ms].sort((a, b) =>
+        (b.last_year - b.first_year) - (a.last_year - a.first_year) ||
+        a.first_year - b.first_year || a.served_under.localeCompare(b.served_under))[0];
+      if (best) parent.set(coach, best.served_under);
+    }
+    const rootOf = (c: string) => { const seen = new Set<string>(); let x = c; while (parent.get(x) && !seen.has(x)) { seen.add(x); x = parent.get(x)!; } return x; };
+    const root = new Map<string, string>();
+    const size = new Map<string, number>();
+    for (const c of coaches) { const r = rootOf(c.name); root.set(c.name, r); size.set(r, (size.get(r) ?? 0) + 1); }
+    // give a distinct color to the largest trees (≥3 descendants → size ≥4, incl. root)
+    const ranked = [...size.entries()].filter(([, n]) => n >= 4).sort((a, b) => b[1] - a[1]);
+    const color = new Map<string, string>();
+    const legend: { root: string; color: string; n: number }[] = [];
+    ranked.forEach(([r, n], i) => { if (i < LINEAGE_PALETTE.length) { color.set(r, LINEAGE_PALETTE[i]); legend.push({ root: r, color: LINEAGE_PALETTE[i], n: n - 1 }); } });
+    const colorOf = (id: string) => color.get(root.get(id) ?? "") ?? LINEAGE_OTHER;
+    const rootName = (id: string) => root.get(id) ?? id;
+    return { colorOf, rootName, legend };
+  }, [coaches, mentorsOf]);
+
   const adj = useMemo(() => {
     const m = new Map<string, Set<string>>();
     const add = (a: string, b: string) => (m.get(a) ?? m.set(a, new Set()).get(a)!).add(b);
@@ -144,9 +178,9 @@ export default function CoachingTree() {
     if (im && im.complete && im.naturalWidth) {
       ctx.clip(); ctx.drawImage(im, node.x - r, node.y - r, r * 2, r * 2); ctx.restore();
       ctx.beginPath(); ctx.arc(node.x, node.y, r, 0, 2 * Math.PI);
-      ctx.lineWidth = node.id === focusId ? 3 : node.roster ? 1.6 : 0.8;
-      ctx.strokeStyle = node.id === focusId ? RED : node.roster ? NFL : "#bbb"; ctx.stroke();
-    } else { ctx.fillStyle = node.id === focusId ? RED : node.roster ? NFL : "#c9c9c9"; ctx.fill(); ctx.restore(); }
+      ctx.lineWidth = node.id === focusId ? 3 : colorBy === "lineage" ? 2 : node.roster ? 1.6 : 0.8;
+      ctx.strokeStyle = node.id === focusId ? RED : colorBy === "lineage" ? lineage.colorOf(node.id) : node.roster ? NFL : "#bbb"; ctx.stroke();
+    } else { ctx.fillStyle = node.id === focusId ? RED : colorBy === "lineage" ? lineage.colorOf(node.id) : node.roster ? NFL : "#c9c9c9"; ctx.fill(); ctx.restore(); }
     if (scale > 2.4 || node.deg >= 5 || node.id === focusId) {
       ctx.font = `${node.deg >= 5 || node.id === focusId ? 700 : 400} ${Math.max(3, 9 / Math.sqrt(scale))}px sans-serif`;
       ctx.fillStyle = "#222"; ctx.textAlign = "center";
@@ -155,22 +189,31 @@ export default function CoachingTree() {
   };
 
   const circleTexture = (node: any): THREE.Texture | null => {
-    if (texCache.current.has(node.id)) return texCache.current.get(node.id)!;
+    const ring = node.id === focusId ? RED : colorBy === "lineage" ? lineage.colorOf(node.id) : node.roster ? "#3b7dd8" : "#888";
+    const key = `${node.id}|${ring}`; // re-bake when the ring color (focus / lineage) changes
+    if (texCache.current.has(key)) return texCache.current.get(key)!;
     const im = imgCache.current.get(node.id);
     if (!im || !im.complete || !im.naturalWidth) return null;
     const S = 128; const cv = document.createElement("canvas"); cv.width = cv.height = S;
     const ctx = cv.getContext("2d")!;
     ctx.beginPath(); ctx.arc(S / 2, S / 2, S / 2 - 2, 0, 2 * Math.PI); ctx.clip();
     ctx.drawImage(im, 0, 0, S, S);
-    ctx.lineWidth = 6; ctx.strokeStyle = node.id === focusId ? RED : node.roster ? "#3b7dd8" : "#888";
-    ctx.beginPath(); ctx.arc(S / 2, S / 2, S / 2 - 3, 0, 2 * Math.PI); ctx.stroke();
-    const tex = new THREE.CanvasTexture(cv); texCache.current.set(node.id, tex); return tex;
+    ctx.lineWidth = colorBy === "lineage" ? 8 : 6; ctx.strokeStyle = ring;
+    ctx.beginPath(); ctx.arc(S / 2, S / 2, S / 2 - 4, 0, 2 * Math.PI); ctx.stroke();
+    const tex = new THREE.CanvasTexture(cv); texCache.current.set(key, tex); return tex;
   };
   const node3D = (node: any) => {
     const r = radius(node); const tex = circleTexture(node);
     if (tex) { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex })); s.scale.set(r * 1.7, r * 1.7, 1); return s; }
+    const fallback = node.id === focusId ? RED : colorBy === "lineage" ? lineage.colorOf(node.id) : node.roster ? NFL : "#c9c9c9";
     return new THREE.Mesh(new THREE.SphereGeometry(r * 0.7, 12, 12),
-      new THREE.MeshLambertMaterial({ color: node.id === focusId ? 0xd50a0a : node.roster ? NFL : 0xc9c9c9 }));
+      new THREE.MeshLambertMaterial({ color: new THREE.Color(fallback) }));
+  };
+
+  const linkColorFn = (l: any) => {
+    if (colorBy !== "lineage") return render === "3d" ? "rgba(255,255,255,0.22)" : "#cfcfcf";
+    const t = typeof l.target === "object" ? l.target.id : l.target;
+    return hexA(lineage.colorOf(t), render === "3d" ? 0.45 : 0.55);
   };
 
   const fg2d = useRef<any>(null); const fg3d = useRef<any>(null);
@@ -204,6 +247,12 @@ export default function CoachingTree() {
               style={{ background: render === m ? NFL : "#fff", color: render === m ? "#fff" : "#333" }}>{m.toUpperCase()}</button>
           ))}
         </div>
+        <div className="flex rounded overflow-hidden" style={{ border: "1px solid #ccc" }}>
+          {(["lineage", "role"] as const).map((m) => (
+            <button key={m} onClick={() => setColorBy(m)} className="px-3 py-1"
+              style={{ background: colorBy === m ? NFL : "#fff", color: colorBy === m ? "#fff" : "#333" }}>{m === "lineage" ? "Lineage" : "Role"}</button>
+          ))}
+        </div>
         <button onClick={back} disabled={!history.length} className="px-3 py-1 rounded" style={{ border: "1px solid #ccc", background: "#fff", opacity: history.length ? 1 : 0.4 }}>← Back</button>
         <button onClick={showAll} disabled={!focusId} className="px-3 py-1 rounded" style={{ border: "1px solid #ccc", background: "#fff", opacity: focusId ? 1 : 0.4 }}>⌂ Show all</button>
         <select value={focusId ?? ""} onChange={(e) => (e.target.value ? goTo(e.target.value) : showAll())} className="px-2 py-1 rounded" style={{ border: "1px solid #ccc" }}>
@@ -223,6 +272,23 @@ export default function CoachingTree() {
       </div>
       <div className="mt-2 text-sm font-medium" style={{ color: NFL }}>{crumb}</div>
 
+      {colorBy === "lineage" && (
+        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 text-xs" style={{ color: MUTED }}>
+          <span style={{ fontWeight: 700 }}>Founding trees:</span>
+          {lineage.legend.map((g) => (
+            <span key={g.root} onClick={() => goTo(g.root)} className="flex items-center gap-1" style={{ cursor: "pointer" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = NFL)} onMouseLeave={(e) => (e.currentTarget.style.color = "")}>
+              <span style={{ width: 10, height: 10, borderRadius: "50%", background: g.color, display: "inline-block" }} />
+              {g.root} <span style={{ opacity: 0.7 }}>({g.n})</span>
+            </span>
+          ))}
+          <span className="flex items-center gap-1">
+            <span style={{ width: 10, height: 10, borderRadius: "50%", background: LINEAGE_OTHER, display: "inline-block" }} />
+            other / unrooted
+          </span>
+        </div>
+      )}
+
       <div className="flex gap-4 mt-2" style={{ alignItems: "flex-start" }}>
         {/* graph */}
         <div style={{ border: "1px solid #eee", borderRadius: 8, overflow: "hidden", background: render === "3d" ? "#0b1020" : "#fafafa", width: GRAPH_W, height: HEIGHT, flex: "0 0 auto" }}>
@@ -230,12 +296,12 @@ export default function CoachingTree() {
             <p className="p-8" style={{ color: MUTED }}>{loading ? "Loading data…" : "Loading faces…"}</p>
           ) : render === "3d" ? (
             <ForceGraph3D ref={fg3d} graphData={view} width={GRAPH_W} height={HEIGHT} backgroundColor="#0b1020"
-              nodeThreeObject={node3D} linkColor={() => "rgba(255,255,255,0.22)"} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1} linkOpacity={0.35}
+              nodeThreeObject={node3D} linkColor={linkColorFn} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1} linkOpacity={0.35}
               onEngineStop={fitView} onNodeClick={(n: any) => goTo(n.id)} />
           ) : (
             <ForceGraph2D ref={fg2d} graphData={view} width={GRAPH_W} height={HEIGHT} nodeCanvasObject={draw2D}
               nodePointerAreaPaint={(n: any, c, ctx) => { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(n.x, n.y, radius(n), 0, 2 * Math.PI); ctx.fill(); }}
-              linkColor={() => "#cfcfcf"} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1} cooldownTicks={120} d3VelocityDecay={0.3}
+              linkColor={linkColorFn} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1} cooldownTicks={120} d3VelocityDecay={0.3}
               onEngineStop={fitView} onNodeClick={(n: any) => goTo(n.id)} />
           )}
         </div>
@@ -249,7 +315,8 @@ export default function CoachingTree() {
       </div>
 
       <p className="text-xs mt-3" style={{ color: MUTED }}>
-        Click any face to focus it and see their card · <b>← Back</b> / <b>⌂ Show all</b> to return · bigger nodes = more protégés, navy ring = current 2026 coach.
+        Click any face to focus it and see their card · <b>← Back</b> / <b>⌂ Show all</b> to return · bigger nodes = more protégés.
+        Ring color: in <b>Lineage</b> mode each coach is tinted by their founding tree (traced through their longest-tenure mentor); in <b>Role</b> mode a navy ring marks a current 2026 coach.
         Win% is NFL head-coaching regular season; rings count Super Bowls won as a coach (incl. as an assistant). Source: Wikipedia.
       </p>
     </div>
