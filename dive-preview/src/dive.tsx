@@ -462,7 +462,7 @@ function GraphCanvas({ nodes, links, mode, colorBy, focusId, colorOf, width, hei
       if (cv) {
         const { width: w, height: h, mode: md, colorBy: cb, focusId: fid, colorOf: cof, nodes: ns, links: ls, imagesRef: imgs } = ref.current;
         if (alphaRef.current > A_MIN) { stepSim(); stepSim(); }
-        if (md === "3d" && ref.current.autoRotate && !drag.current.active) cam.current.yaw += 0.0016; // gentle drift; off after first interaction
+        if (md === "3d" && ref.current.autoRotate && !drag.current.active) cam.current.yaw += 0.0012; // gentle drift; off after first interaction
         const dpr = Math.min(2, window.devicePixelRatio || 1);
         if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
         const ctx = cv.getContext("2d");
