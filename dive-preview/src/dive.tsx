@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSQLQuery } from "@motherduck/react-sql-query";
-import ForceGraph2D from "react-force-graph-2d";
-import ForceGraph3D from "react-force-graph-3d";
-import * as THREE from "three";
 
 // NFL coaching tree — 2D/3D relationship graph + coach detail panel + leaderboard.
-// Faces and stats come straight from the MotherDuck nfl_coaching_tree database.
+// The graph is a self-contained <canvas> renderer (hand-rolled 3D force layout +
+// perspective projection) so the Dive uses only React — no three.js / react-force-graph,
+// which the MotherDuck Dive runtime doesn't allow. Faces and stats come straight from
+// the MotherDuck nfl_coaching_tree database.
 
 const NFL = "#013369";
 const RED = "#D50A0A";
@@ -141,21 +141,14 @@ export default function CoachingTree() {
     return m;
   }, [graph.links]);
 
+  // Decode the base64 face thumbnails into Image objects once; the canvas renderer
+  // draws whatever is loaded each frame, so faces just pop in as they decode.
   const imgCache = useRef(new Map<string, HTMLImageElement>());
-  const texCache = useRef(new Map<string, THREE.Texture>());
-  const [ready, setReady] = useState(false);
   useEffect(() => {
-    if (!graph.nodes.length) return;
-    let done = 0;
-    const withImg = graph.nodes.filter((n) => n.img);
-    if (!withImg.length) { setReady(true); return; }
-    const finish = () => { if (++done >= withImg.length) setReady(true); };
-    for (const n of withImg) {
-      const im = new Image(); im.crossOrigin = "anonymous"; im.onload = finish; im.onerror = finish; im.src = n.img!;
-      imgCache.current.set(n.id, im);
+    for (const n of graph.nodes) {
+      if (!n.img || imgCache.current.has(n.id)) continue;
+      const im = new Image(); im.src = n.img; imgCache.current.set(n.id, im);
     }
-    const t = setTimeout(() => setReady(true), 2500);
-    return () => clearTimeout(t);
   }, [graph.nodes]);
 
   const view = useMemo(() => {
@@ -178,79 +171,12 @@ export default function CoachingTree() {
   const back = () => setHistory((h) => { if (!h.length) return h; const p = h[h.length - 1]; setFocusId(p === ALL ? null : p); return h.slice(0, -1); });
   const showAll = () => { setFocusId(null); setHistory([]); };
 
-  const radius = (n: GNode) => 4 + Math.min(n.deg, 14) * 1.1;
-
-  const draw2D = (node: any, ctx: CanvasRenderingContext2D, scale: number) => {
-    const r = radius(node); const im = imgCache.current.get(node.id);
-    ctx.save(); ctx.beginPath(); ctx.arc(node.x, node.y, r, 0, 2 * Math.PI);
-    if (im && im.complete && im.naturalWidth) {
-      ctx.clip(); ctx.drawImage(im, node.x - r, node.y - r, r * 2, r * 2); ctx.restore();
-      ctx.beginPath(); ctx.arc(node.x, node.y, r, 0, 2 * Math.PI);
-      ctx.lineWidth = node.id === focusId ? 3 : colorBy === "lineage" ? 2 : node.roster ? 1.6 : 0.8;
-      ctx.strokeStyle = node.id === focusId ? RED : colorBy === "lineage" ? lineage.colorOf(node.id) : node.roster ? NFL : "#bbb"; ctx.stroke();
-    } else { ctx.fillStyle = node.id === focusId ? RED : colorBy === "lineage" ? lineage.colorOf(node.id) : node.roster ? NFL : "#c9c9c9"; ctx.fill(); ctx.restore(); }
-    if (scale > 2.4 || node.deg >= 5 || node.id === focusId) {
-      ctx.font = `${node.deg >= 5 || node.id === focusId ? 700 : 400} ${Math.max(3, 9 / Math.sqrt(scale))}px sans-serif`;
-      ctx.fillStyle = "#222"; ctx.textAlign = "center";
-      ctx.fillText(node.id, node.x, node.y + r + 8 / Math.sqrt(scale));
-    }
-  };
-
-  const circleTexture = (node: any): THREE.Texture | null => {
-    const ring = node.id === focusId ? RED : colorBy === "lineage" ? lineage.colorOf(node.id) : node.roster ? "#3b7dd8" : "#888";
-    const key = `${node.id}|${ring}`; // re-bake when the ring color (focus / lineage) changes
-    if (texCache.current.has(key)) return texCache.current.get(key)!;
-    const im = imgCache.current.get(node.id);
-    if (!im || !im.complete || !im.naturalWidth) return null;
-    const S = 128; const cv = document.createElement("canvas"); cv.width = cv.height = S;
-    const ctx = cv.getContext("2d")!;
-    ctx.beginPath(); ctx.arc(S / 2, S / 2, S / 2 - 2, 0, 2 * Math.PI); ctx.clip();
-    ctx.drawImage(im, 0, 0, S, S);
-    ctx.lineWidth = colorBy === "lineage" ? 8 : 6; ctx.strokeStyle = ring;
-    ctx.beginPath(); ctx.arc(S / 2, S / 2, S / 2 - 4, 0, 2 * Math.PI); ctx.stroke();
-    const tex = new THREE.CanvasTexture(cv); texCache.current.set(key, tex); return tex;
-  };
-  const node3D = (node: any) => {
-    const r = radius(node); const tex = circleTexture(node);
-    if (tex) { const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex })); s.scale.set(r * 1.7, r * 1.7, 1); return s; }
-    const fallback = node.id === focusId ? RED : colorBy === "lineage" ? lineage.colorOf(node.id) : node.roster ? NFL : "#c9c9c9";
-    return new THREE.Mesh(new THREE.SphereGeometry(r * 0.7, 12, 12),
-      new THREE.MeshLambertMaterial({ color: new THREE.Color(fallback) }));
-  };
-
-  // links are tinted by the protégé's (target's) lineage. 3D needs a higher alpha
-  // and its own opacity left ungated (linkOpacity is removed below), or the colors
-  // wash out to grey on the dark background.
-  const linkColorFn = (l: any) => {
-    const t = typeof l.target === "object" ? l.target.id : l.target;
-    if (colorBy !== "lineage") return render === "3d" ? "rgba(220,228,245,0.5)" : "#cfcfcf";
-    return hexA(lineage.colorOf(t), render === "3d" ? 0.85 : 0.6);
-  };
-
-  const fg2d = useRef<any>(null); const fg3d = useRef<any>(null);
   const hostRef = useRef<HTMLDivElement>(null);
   const [graphW, setGraphW] = useState(900);
   const [graphH, setGraphH] = useState(GRAPH_H);
   const [isFs, setIsFs] = useState(false);   // native fullscreen
   const [cssFs, setCssFs] = useState(false); // CSS-overlay fallback (works inside the Dive iframe)
-  // Snap straight to the framed view — duration 0, no animation (any zoom tween
-  // reads as lag, and it re-fires as the engine settles). zoomToFit frames the whole
-  // bounding box, which leaves the dense core small (scattered low-degree nodes inflate
-  // the box), so a *negative* padding overscans to fill the window.
-  // NB: 3D padding saturates (camera distance is driven by z-depth); 2D overscans cleanly.
-  const fitView = () => setTimeout(() => {
-    try {
-      const fg = (render === "3d" ? fg3d : fg2d).current; if (!fg) return;
-      const pad = focusId ? (render === "3d" ? 20 : 40) : render === "3d" ? -120 : 12;
-      fg.zoomToFit(0, pad);
-    } catch {}
-  }, 80);
-  // Frame the zoom on the FIRST tick (not on engine-stop), so the graph is already
-  // zoomed in as it appears — no "settle, pause, then zoom" sequence. Combined with
-  // warmupTicks (layout pre-run off-screen) the visible jostle is minimal.
-  const fittedRef = useRef(false);
-  useEffect(() => { fittedRef.current = false; }, [view, render]);
-  const onTick = () => { if (!fittedRef.current) { fittedRef.current = true; fitView(); } };
+  const [resetSignal, setResetSignal] = useState(0); // bump to re-frame the canvas graph
   // graph fills whatever width the (full-width, drawer-aware) host gives it
   useEffect(() => {
     const el = hostRef.current; if (!el) return;
@@ -259,7 +185,6 @@ export default function CoachingTree() {
     const ro = new ResizeObserver(measure); ro.observe(el);
     return () => ro.disconnect();
   }, [tab, focusId, render]);
-  useEffect(() => { fitView(); }, [graphW, graphH]); // refit when the canvas resizes (incl. fullscreen)
 
   // fullscreen the graph container; the overlay buttons live inside it so they stay reachable.
   // Prefer the native Fullscreen API, but fall back to a CSS fixed-overlay when it's blocked
@@ -378,21 +303,15 @@ export default function CoachingTree() {
                 : { position: "relative", flex: 1, minWidth: 0, borderRadius: isFs ? 0 : 8, height: isFs ? "100%" : GRAPH_H }),
             }}>
               <div style={{ position: "absolute", top: 8, right: 8, zIndex: 5, display: "flex", gap: 6 }}>
-                <button onClick={fitView} title="Reset view" style={overlayBtn(render)}>⟲ Reset</button>
+                <button onClick={() => setResetSignal((s) => s + 1)} title="Reset view" style={overlayBtn(render)}>⟲ Reset</button>
                 <button onClick={toggleFs} title={fsActive ? "Exit full screen" : "Full screen"} style={overlayBtn(render)}>{fsActive ? "✕ Exit" : "⛶ Full screen"}</button>
               </div>
-              {loading || !ready ? (
-                <p className="p-8" style={{ color: MUTED }}>{loading ? "Loading data…" : "Loading faces…"}</p>
-              ) : render === "3d" ? (
-                <ForceGraph3D ref={fg3d} graphData={view} width={graphW} height={graphH} backgroundColor="#0b1020"
-                  nodeThreeObject={node3D} linkColor={linkColorFn} linkWidth={colorBy === "lineage" ? 1.6 : 0.5} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1}
-                  warmupTicks={60} onEngineTick={onTick} onEngineStop={fitView} onNodeClick={(n: any) => goTo(n.id)} />
+              {loading ? (
+                <p className="p-8" style={{ color: MUTED }}>Loading data…</p>
               ) : (
-                <ForceGraph2D ref={fg2d} graphData={view} width={graphW} height={graphH} nodeCanvasObject={draw2D}
-                  nodePointerAreaPaint={(n: any, c, ctx) => { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(n.x, n.y, radius(n), 0, 2 * Math.PI); ctx.fill(); }}
-                  linkColor={linkColorFn} linkWidth={colorBy === "lineage" ? 1.2 : 0.6} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1}
-                  warmupTicks={90} cooldownTicks={60} d3VelocityDecay={0.4} onEngineTick={onTick}
-                  onEngineStop={fitView} onNodeClick={(n: any) => goTo(n.id)} />
+                <GraphCanvas nodes={view.nodes} links={view.links} mode={render} colorBy={colorBy}
+                  focusId={focusId} colorOf={lineage.colorOf} width={graphW} height={graphH}
+                  imagesRef={imgCache} onNodeClick={goTo} resetSignal={resetSignal} />
               )}
             </div>
 
@@ -421,6 +340,225 @@ export default function CoachingTree() {
       {tab === "methodology" && <Methodology nodes={graph.nodes.length} links={graph.links.length} />}
     </div>
   );
+}
+
+// ── Self-contained canvas graph (no three.js / react-force-graph) ───────────────
+// Hand-rolled 3D force layout + perspective projection, drawn to one <canvas>.
+// Only depends on React, so it runs in the MotherDuck Dive runtime. 2D mode flattens
+// z to a plane and uses an orthographic pan/zoom camera; 3D mode orbits.
+type Pos = { x: number; y: number; z: number; vx: number; vy: number; vz: number };
+const REP = 4200, SPRING = 0.05, L0 = 34, CENTER = 0.025, DAMP = 0.86, A_MIN = 0.02;
+const nodeWorldR = (deg: number) => 1.6 + Math.min(deg, 14) * 0.5;
+
+function GraphCanvas({ nodes, links, mode, colorBy, focusId, colorOf, width, height, imagesRef, onNodeClick, resetSignal }: {
+  nodes: GNode[]; links: { source: string; target: string }[];
+  mode: "3d" | "2d"; colorBy: "lineage" | "role"; focusId: string | null;
+  colorOf: (id: string) => string; width: number; height: number;
+  imagesRef: React.MutableRefObject<Map<string, HTMLImageElement>>;
+  onNodeClick: (id: string) => void; resetSignal: number;
+}) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const posRef = useRef<Map<string, Pos>>(new Map());
+  const cam = useRef({ yaw: 0.5, pitch: -0.28, dist: 800, zoom: 1, panx: 0, pany: 0 });
+  const alphaRef = useRef(1);
+  const projRef = useRef<{ id: string; sx: number; sy: number; r: number }[]>([]);
+  const drag = useRef({ active: false, moved: false, x: 0, y: 0 });
+
+  // keep latest props in refs so the single rAF loop never goes stale
+  const R = { nodes, links, mode, colorBy, focusId, colorOf, width, height, imagesRef, onNodeClick };
+  const ref = useRef(R); ref.current = R;
+
+  const stepSim = () => {
+    const { nodes: ns, links: ls, mode: md } = ref.current;
+    const P = posRef.current, a = alphaRef.current, planar = md === "2d";
+    for (let i = 0; i < ns.length; i++) {
+      const pi = P.get(ns[i].id); if (!pi) continue;
+      for (let j = i + 1; j < ns.length; j++) {
+        const pj = P.get(ns[j].id); if (!pj) continue;
+        const dx = pi.x - pj.x, dy = pi.y - pj.y, dz = planar ? 0 : pi.z - pj.z;
+        const d2 = dx * dx + dy * dy + dz * dz + 0.01;
+        const f = (REP * a) / d2, inv = 1 / Math.sqrt(d2);
+        const fx = f * dx * inv, fy = f * dy * inv, fz = f * dz * inv;
+        pi.vx += fx; pi.vy += fy; pi.vz += fz; pj.vx -= fx; pj.vy -= fy; pj.vz -= fz;
+      }
+    }
+    for (const l of ls) {
+      const p = P.get(l.source), q = P.get(l.target); if (!p || !q) continue;
+      const dx = q.x - p.x, dy = q.y - p.y, dz = planar ? 0 : q.z - p.z;
+      const d = Math.sqrt(dx * dx + dy * dy + dz * dz) + 0.001;
+      const f = (SPRING * a * (d - L0)) / d, fx = f * dx, fy = f * dy, fz = f * dz;
+      p.vx += fx; p.vy += fy; p.vz += fz; q.vx -= fx; q.vy -= fy; q.vz -= fz;
+    }
+    for (const n of ns) {
+      const p = P.get(n.id); if (!p) continue;
+      p.vx += -CENTER * a * p.x; p.vy += -CENTER * a * p.y; if (!planar) p.vz += -CENTER * a * p.z;
+      p.vx *= DAMP; p.vy *= DAMP; p.vz *= DAMP;
+      p.x += p.vx; p.y += p.vy;
+      if (planar) { p.z = 0; p.vz = 0; } else p.z += p.vz;
+    }
+    alphaRef.current = a > A_MIN ? a * 0.985 : a;
+  };
+
+  const project = (p: Pos) => {
+    const { width: w, height: h, mode: md } = ref.current;
+    if (md === "2d") {
+      const z = cam.current.zoom;
+      return { sx: w / 2 + p.x * z + cam.current.panx, sy: h / 2 + p.y * z + cam.current.pany, scale: z, depth: 0 };
+    }
+    const { yaw, pitch, dist } = cam.current;
+    const cyaw = Math.cos(yaw), syaw = Math.sin(yaw);
+    const x = p.x * cyaw + p.z * syaw, zr = -p.x * syaw + p.z * cyaw;
+    const cp = Math.cos(pitch), sp = Math.sin(pitch);
+    const y2 = p.y * cp - zr * sp, z2 = p.y * sp + zr * cp;
+    const viewZ = Math.max(1, dist - z2);
+    const F = Math.min(w, h) * 0.9, k = F / viewZ;
+    return { sx: w / 2 + x * k, sy: h / 2 - y2 * k, scale: k, depth: z2 };
+  };
+
+  const fit = (resetAngles: boolean) => {
+    const ps = [...posRef.current.values()]; if (!ps.length) return;
+    const { width: w, height: h, mode: md } = ref.current;
+    if (md === "2d") {
+      let maxR = 1; for (const p of ps) maxR = Math.max(maxR, Math.hypot(p.x, p.y));
+      cam.current.zoom = (Math.min(w, h) / 2 * 0.92) / maxR; cam.current.panx = 0; cam.current.pany = 0;
+    } else {
+      let maxR = 1; for (const p of ps) maxR = Math.max(maxR, Math.hypot(p.x, p.y, p.z));
+      if (resetAngles) { cam.current.yaw = 0.5; cam.current.pitch = -0.28; }
+      const F = Math.min(w, h) * 0.9, target = Math.min(w, h) / 2 * 0.84;
+      cam.current.dist = Math.max(maxR * 1.7, (maxR * F) / target);
+    }
+  };
+
+  // rebuild layout when the node set or mode changes; warm up so it appears settled
+  const nodeKey = nodes.map((n) => n.id).join("|") + "|" + mode;
+  useEffect(() => {
+    const P = new Map<string, Pos>(); const n = nodes.length || 1, RAD = 240;
+    nodes.forEach((nd, i) => {
+      const ang = i * 2.399963, t = (i + 0.5) / n, rr = RAD * Math.cbrt(t), yy = 1 - 2 * t;
+      const ring = Math.sqrt(Math.max(0, 1 - yy * yy));
+      P.set(nd.id, { x: rr * Math.cos(ang) * ring, y: rr * yy, z: mode === "2d" ? 0 : rr * Math.sin(ang) * ring, vx: 0, vy: 0, vz: 0 });
+    });
+    posRef.current = P; alphaRef.current = 1;
+    for (let t = 0; t < 280; t++) stepSim();
+    fit(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodeKey]);
+
+  useEffect(() => { fit(true); /* Reset button */ }, [resetSignal]);
+  useEffect(() => { fit(false); /* container resize */ }, [width, height]);
+
+  // single render/animation loop
+  useEffect(() => {
+    let raf = 0;
+    const loop = () => {
+      const cv = canvasRef.current;
+      if (cv) {
+        const { width: w, height: h, mode: md, colorBy: cb, focusId: fid, colorOf: cof, nodes: ns, links: ls, imagesRef: imgs } = ref.current;
+        if (alphaRef.current > A_MIN) { stepSim(); stepSim(); }
+        if (md === "3d" && !drag.current.active && !fid && alphaRef.current <= A_MIN) cam.current.yaw += 0.0016; // gentle drift
+        const dpr = Math.min(2, window.devicePixelRatio || 1);
+        if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
+        const ctx = cv.getContext("2d");
+        if (ctx) {
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          const dark = md === "3d";
+          ctx.fillStyle = dark ? "#0b1020" : "#fafafa"; ctx.fillRect(0, 0, w, h);
+          const proj = new Map<string, { sx: number; sy: number; scale: number; depth: number }>();
+          let zmin = Infinity, zmax = -Infinity;
+          for (const nd of ns) { const p = posRef.current.get(nd.id); if (!p) continue; const pr = project(p); proj.set(nd.id, pr); if (pr.depth < zmin) zmin = pr.depth; if (pr.depth > zmax) zmax = pr.depth; }
+          const zspan = Math.max(1, zmax - zmin);
+          const rById = new Map<string, number>();
+          for (const nd of ns) { const pr = proj.get(nd.id); if (pr) rById.set(nd.id, Math.max(3, nodeWorldR(nd.deg) * pr.scale)); }
+          // links: mentor (source) -> protégé (target), with a small arrowhead at the protégé
+          for (const l of ls) {
+            const a = proj.get(l.source), b = proj.get(l.target); if (!a || !b) continue;
+            const col = cb === "lineage" ? hexA(cof(l.target), dark ? 0.8 : 0.55) : dark ? "rgba(220,228,245,0.4)" : "#cfcfcf";
+            ctx.strokeStyle = col; ctx.lineWidth = cb === "lineage" ? 1.1 : 0.7;
+            ctx.beginPath(); ctx.moveTo(a.sx, a.sy); ctx.lineTo(b.sx, b.sy); ctx.stroke();
+            const dx = b.sx - a.sx, dy = b.sy - a.sy, len = Math.hypot(dx, dy) || 1;
+            const ux = dx / len, uy = dy / len, tr = (rById.get(l.target) ?? 4) + 1, ah = 4.5;
+            const tx = b.sx - ux * tr, ty = b.sy - uy * tr;
+            ctx.fillStyle = col; ctx.beginPath();
+            ctx.moveTo(tx, ty);
+            ctx.lineTo(tx - ux * ah - uy * ah * 0.55, ty - uy * ah + ux * ah * 0.55);
+            ctx.lineTo(tx - ux * ah + uy * ah * 0.55, ty - uy * ah - ux * ah * 0.55);
+            ctx.closePath(); ctx.fill();
+          }
+          // nodes back-to-front
+          const order = ns.filter((nd) => proj.has(nd.id)).sort((p, q) => proj.get(p.id)!.depth - proj.get(q.id)!.depth);
+          projRef.current = [];
+          for (const nd of order) {
+            const pr = proj.get(nd.id)!; const r = Math.max(3, nodeWorldR(nd.deg) * pr.scale);
+            const fade = dark ? 0.55 + 0.45 * ((pr.depth - zmin) / zspan) : 1;
+            const ring = nd.id === fid ? RED : cb === "lineage" ? cof(nd.id) : nd.roster ? (dark ? "#3b7dd8" : NFL) : dark ? "#888" : "#bbb";
+            const im = imgs.current.get(nd.id);
+            ctx.globalAlpha = fade;
+            if (im && im.complete && im.naturalWidth) {
+              ctx.save(); ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r, 0, 2 * Math.PI); ctx.clip();
+              ctx.drawImage(im, pr.sx - r, pr.sy - r, r * 2, r * 2); ctx.restore();
+              ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r, 0, 2 * Math.PI);
+              ctx.lineWidth = nd.id === fid ? 3 : cb === "lineage" ? 2 : 1.4; ctx.strokeStyle = ring; ctx.stroke();
+            } else {
+              ctx.beginPath(); ctx.arc(pr.sx, pr.sy, r, 0, 2 * Math.PI); ctx.fillStyle = ring; ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+            projRef.current.push({ id: nd.id, sx: pr.sx, sy: pr.sy, r });
+            if (nd.deg >= 5 || nd.id === fid) {
+              ctx.fillStyle = dark ? "rgba(232,238,255,0.92)" : "#222";
+              ctx.font = `${nd.id === fid ? 700 : 600} 11px ui-sans-serif, system-ui`; ctx.textAlign = "center";
+              ctx.fillText(nd.id, pr.sx, pr.sy + r + 11);
+            }
+          }
+        }
+      }
+      raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+    return () => cancelAnimationFrame(raf);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // interaction: orbit / pan / zoom / click
+  useEffect(() => {
+    const cv = canvasRef.current; if (!cv) return;
+    const down = (e: PointerEvent) => { drag.current = { active: true, moved: false, x: e.clientX, y: e.clientY }; };
+    const move = (e: PointerEvent) => {
+      if (!drag.current.active) return;
+      const dx = e.clientX - drag.current.x, dy = e.clientY - drag.current.y;
+      if (Math.abs(dx) + Math.abs(dy) > 3) drag.current.moved = true;
+      drag.current.x = e.clientX; drag.current.y = e.clientY;
+      if (ref.current.mode === "3d") {
+        cam.current.yaw += dx * 0.008;
+        cam.current.pitch = Math.max(-1.45, Math.min(1.45, cam.current.pitch + dy * 0.008));
+      } else { cam.current.panx += dx; cam.current.pany += dy; }
+    };
+    const up = (e: PointerEvent) => {
+      if (drag.current.active && !drag.current.moved) {
+        const rect = cv.getBoundingClientRect(), mx = e.clientX - rect.left, my = e.clientY - rect.top;
+        let best: string | null = null, bd = 1e9;
+        for (const q of projRef.current) { const d = Math.hypot(q.sx - mx, q.sy - my); if (d <= q.r + 5 && d < bd) { bd = d; best = q.id; } }
+        if (best) ref.current.onNodeClick(best);
+      }
+      drag.current.active = false;
+    };
+    const wheel = (e: WheelEvent) => {
+      e.preventDefault();
+      if (ref.current.mode === "3d") cam.current.dist = Math.max(60, Math.min(6000, cam.current.dist * (1 + e.deltaY * 0.0012)));
+      else cam.current.zoom = Math.max(0.05, Math.min(20, cam.current.zoom * (1 - e.deltaY * 0.0012)));
+    };
+    cv.addEventListener("pointerdown", down);
+    window.addEventListener("pointermove", move);
+    window.addEventListener("pointerup", up);
+    cv.addEventListener("wheel", wheel, { passive: false });
+    return () => {
+      cv.removeEventListener("pointerdown", down);
+      window.removeEventListener("pointermove", move);
+      window.removeEventListener("pointerup", up);
+      cv.removeEventListener("wheel", wheel);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} style={{ width, height, display: "block", cursor: "grab", touchAction: "none" }} />;
 }
 
 function Stat({ label, value }: { label: string; value: string }) {
