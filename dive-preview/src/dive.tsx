@@ -15,7 +15,7 @@ const HEIGHT = 560;
 const ALL = "__ALL__";
 
 type Coach = {
-  name: string; image_b64: string | null; is_roster: boolean;
+  name: string; image_b64: string | null; is_roster: boolean; is_nfl_hc: boolean;
   hc_wins: number | null; hc_losses: number | null; hc_ties: number | null; super_bowl_rings: number | null;
 };
 type Edge = { coach: string; served_under: string; first_year: number; last_year: number };
@@ -29,7 +29,7 @@ const winPct = (c: Coach) =>
 const yrs = (a: number, b: number) => (b >= 9999 ? `${a}–present` : a === b ? `${a}` : `${a}–${b}`);
 
 export default function CoachingTree() {
-  const coachesQ = useSQLQuery<Coach[]>(`SELECT name, image_b64, is_roster, hc_wins, hc_losses, hc_ties, super_bowl_rings FROM nfl_coaching_tree.coaches`);
+  const coachesQ = useSQLQuery<Coach[]>(`SELECT name, image_b64, is_roster, is_nfl_hc, hc_wins, hc_losses, hc_ties, super_bowl_rings FROM nfl_coaching_tree.coaches`);
   const edgesQ = useSQLQuery<Edge[]>(`SELECT coach, served_under, first_year, last_year FROM nfl_coaching_tree.edges`);
   const stintsQ = useSQLQuery<Stint[]>(`SELECT coach, team, start_year, end_year, role, is_head_coach FROM nfl_coaching_tree.stints`);
   const coaches = (coachesQ.data ?? []) as Coach[];
@@ -52,12 +52,9 @@ export default function CoachingTree() {
     return m;
   }, [stints]);
 
-  const hcSet = useMemo(() => {
-    const s = new Set<string>();
-    for (const c of coaches) if (c.hc_wins != null) s.add(c.name);
-    for (const st of stints) if (st.is_head_coach) s.add(st.coach);
-    return s;
-  }, [coaches, stints]);
+  // NFL head coaches per the authoritative "List of <team> head coaches" data
+  // (not college HCs — e.g. Jim Leonhard's Wisconsin stint doesn't count).
+  const hcSet = useMemo(() => new Set(coaches.filter((c) => c.is_nfl_hc).map((c) => c.name)), [coaches]);
 
   // mentor -> protégés and coach -> mentors
   const protegesOf = useMemo(() => {
