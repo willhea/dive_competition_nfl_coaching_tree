@@ -235,6 +235,12 @@ export default function CoachingTree() {
       fg.zoomToFit(0, pad);
     } catch {}
   }, 80);
+  // Frame the zoom on the FIRST tick (not on engine-stop), so the graph is already
+  // zoomed in as it appears — no "settle, pause, then zoom" sequence. Combined with
+  // warmupTicks (layout pre-run off-screen) the visible jostle is minimal.
+  const fittedRef = useRef(false);
+  useEffect(() => { fittedRef.current = false; }, [view, render]);
+  const onTick = () => { if (!fittedRef.current) { fittedRef.current = true; fitView(); } };
   // graph fills whatever width the (full-width, drawer-aware) host gives it
   useEffect(() => {
     const el = hostRef.current; if (!el) return;
@@ -337,11 +343,12 @@ export default function CoachingTree() {
               ) : render === "3d" ? (
                 <ForceGraph3D ref={fg3d} graphData={view} width={graphW} height={GRAPH_H} backgroundColor="#0b1020"
                   nodeThreeObject={node3D} linkColor={linkColorFn} linkWidth={colorBy === "lineage" ? 1.6 : 0.5} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1}
-                  onEngineStop={fitView} onNodeClick={(n: any) => goTo(n.id)} />
+                  warmupTicks={60} onEngineTick={onTick} onEngineStop={fitView} onNodeClick={(n: any) => goTo(n.id)} />
               ) : (
                 <ForceGraph2D ref={fg2d} graphData={view} width={graphW} height={GRAPH_H} nodeCanvasObject={draw2D}
                   nodePointerAreaPaint={(n: any, c, ctx) => { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(n.x, n.y, radius(n), 0, 2 * Math.PI); ctx.fill(); }}
-                  linkColor={linkColorFn} linkWidth={colorBy === "lineage" ? 1.2 : 0.6} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1} cooldownTicks={120} d3VelocityDecay={0.3}
+                  linkColor={linkColorFn} linkWidth={colorBy === "lineage" ? 1.2 : 0.6} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1}
+                  warmupTicks={90} cooldownTicks={60} d3VelocityDecay={0.4} onEngineTick={onTick}
                   onEngineStop={fitView} onNodeClick={(n: any) => goTo(n.id)} />
               )}
             </div>
