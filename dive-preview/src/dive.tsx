@@ -223,16 +223,16 @@ export default function CoachingTree() {
   const fg2d = useRef<any>(null); const fg3d = useRef<any>(null);
   const hostRef = useRef<HTMLDivElement>(null);
   const [graphW, setGraphW] = useState(900);
-  // Single smooth fit. zoomToFit frames the whole bounding box, which leaves the
-  // dense core small (scattered low-degree nodes inflate the box). A *negative*
-  // padding overscans, filling the window in one animation — no second stage / wobble.
+  // Snap straight to the framed view — duration 0, no animation (any zoom tween
+  // reads as lag, and it re-fires as the engine settles). zoomToFit frames the whole
+  // bounding box, which leaves the dense core small (scattered low-degree nodes inflate
+  // the box), so a *negative* padding overscans to fill the window.
+  // NB: 3D padding saturates (camera distance is driven by z-depth); 2D overscans cleanly.
   const fitView = () => setTimeout(() => {
     try {
       const fg = (render === "3d" ? fg3d : fg2d).current; if (!fg) return;
-      // NB: 3D zoomToFit padding saturates (camera distance is driven by z-depth),
-      // so a larger negative has little effect there; 2D overscans cleanly.
       const pad = focusId ? (render === "3d" ? 20 : 40) : render === "3d" ? -120 : -150;
-      fg.zoomToFit(450, pad);
+      fg.zoomToFit(0, pad);
     } catch {}
   }, 80);
   // graph fills whatever width the (full-width, drawer-aware) host gives it
