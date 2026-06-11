@@ -231,7 +231,7 @@ export default function CoachingTree() {
   const fitView = () => setTimeout(() => {
     try {
       const fg = (render === "3d" ? fg3d : fg2d).current; if (!fg) return;
-      const pad = focusId ? (render === "3d" ? 20 : 40) : render === "3d" ? -120 : -150;
+      const pad = focusId ? (render === "3d" ? 20 : 40) : render === "3d" ? -120 : -40;
       fg.zoomToFit(0, pad);
     } catch {}
   }, 80);
