@@ -10,8 +10,8 @@ import * as THREE from "three";
 const NFL = "#013369";
 const RED = "#D50A0A";
 const MUTED = "#6a6a6a";
-const GRAPH_W = 520;
-const HEIGHT = 560;
+const GRAPH_H = 620;
+const DRAWER_W = 340;
 const ALL = "__ALL__";
 
 type Coach = {
@@ -46,6 +46,7 @@ export default function CoachingTree() {
 
   const [render, setRender] = useState<"3d" | "2d">("3d");
   const [colorBy, setColorBy] = useState<"lineage" | "role">("lineage");
+  const [tab, setTab] = useState<"explore" | "leaderboard" | "methodology">("explore");
   const [focusId, setFocusId] = useState<string | null>(null);
   const [history, setHistory] = useState<string[]>([]);
   const [depth, setDepth] = useState<1 | 2>(1);
@@ -210,14 +211,28 @@ export default function CoachingTree() {
       new THREE.MeshLambertMaterial({ color: new THREE.Color(fallback) }));
   };
 
+  // links are tinted by the protégé's (target's) lineage. 3D needs a higher alpha
+  // and its own opacity left ungated (linkOpacity is removed below), or the colors
+  // wash out to grey on the dark background.
   const linkColorFn = (l: any) => {
-    if (colorBy !== "lineage") return render === "3d" ? "rgba(255,255,255,0.22)" : "#cfcfcf";
     const t = typeof l.target === "object" ? l.target.id : l.target;
-    return hexA(lineage.colorOf(t), render === "3d" ? 0.45 : 0.55);
+    if (colorBy !== "lineage") return render === "3d" ? "rgba(220,228,245,0.5)" : "#cfcfcf";
+    return hexA(lineage.colorOf(t), render === "3d" ? 0.85 : 0.6);
   };
 
   const fg2d = useRef<any>(null); const fg3d = useRef<any>(null);
+  const hostRef = useRef<HTMLDivElement>(null);
+  const [graphW, setGraphW] = useState(900);
   const fitView = () => setTimeout(() => { try { (render === "3d" ? fg3d : fg2d).current?.zoomToFit(500, focusId ? 60 : 30); } catch {} }, 60);
+  // graph fills whatever width the (full-width, drawer-aware) host gives it
+  useEffect(() => {
+    const el = hostRef.current; if (!el) return;
+    const measure = () => setGraphW(Math.max(320, el.clientWidth));
+    measure();
+    const ro = new ResizeObserver(measure); ro.observe(el);
+    return () => ro.disconnect();
+  }, [tab, focusId, render]);
+  useEffect(() => { fitView(); }, [graphW]); // refit when the canvas resizes
 
   const crumb = focusId ? `${focusId}'s network · ${depth === 1 ? "direct" : "2 steps"}` : `All ${graph.nodes.length} coaches`;
 
@@ -230,95 +245,115 @@ export default function CoachingTree() {
         hcs: protges.filter((e) => hcSet.has(e.coach)).length,
         wp: winPct(c), rings: c.super_bowl_rings ?? 0, tree: treeSize(c.name),
       };
-    }).filter((r) => r.n > 0).sort((a, b) => b.n - a.n || b.tree - a.tree).slice(0, 15);
+    }).filter((r) => r.n > 0).sort((a, b) => b.n - a.n || b.tree - a.tree).slice(0, 25);
   }, [coaches, protegesOf, hcSet, treeSize]);
 
+  const jumpFromTab = (id: string) => { setTab("explore"); goTo(id); };
+
   return (
-    <div className="mx-auto my-6 px-6" style={{ maxWidth: GRAPH_W + 360, color: "#231f20", fontFamily: "ui-sans-serif, system-ui" }}>
+    <div className="mx-auto my-6 px-6" style={{ maxWidth: 1180, width: "100%", color: "#231f20", fontFamily: "ui-sans-serif, system-ui" }}>
       <h1 className="text-3xl font-bold" style={{ color: NFL }}>NFL Coaching Tree</h1>
       <p className="mt-1 text-sm" style={{ color: MUTED }}>
         Who trained under whom — arrows point from a head coach to a protégé. {graph.nodes.length} coaches, {graph.links.length} relationships.
       </p>
 
-      <div className="flex flex-wrap items-center gap-2 mt-4 text-sm">
-        <div className="flex rounded overflow-hidden" style={{ border: "1px solid #ccc" }}>
-          {(["3d", "2d"] as const).map((m) => (
-            <button key={m} onClick={() => setRender(m)} className="px-3 py-1"
-              style={{ background: render === m ? NFL : "#fff", color: render === m ? "#fff" : "#333" }}>{m.toUpperCase()}</button>
-          ))}
-        </div>
-        <div className="flex rounded overflow-hidden" style={{ border: "1px solid #ccc" }}>
-          {(["lineage", "role"] as const).map((m) => (
-            <button key={m} onClick={() => setColorBy(m)} className="px-3 py-1"
-              style={{ background: colorBy === m ? NFL : "#fff", color: colorBy === m ? "#fff" : "#333" }}>{m === "lineage" ? "Lineage" : "Current Role"}</button>
-          ))}
-        </div>
-        <button onClick={back} disabled={!history.length} className="px-3 py-1 rounded" style={{ border: "1px solid #ccc", background: "#fff", opacity: history.length ? 1 : 0.4 }}>← Back</button>
-        <button onClick={showAll} disabled={!focusId} className="px-3 py-1 rounded" style={{ border: "1px solid #ccc", background: "#fff", opacity: focusId ? 1 : 0.4 }}>⌂ Show all</button>
-        <select value={focusId ?? ""} onChange={(e) => (e.target.value ? goTo(e.target.value) : showAll())} className="px-2 py-1 rounded" style={{ border: "1px solid #ccc" }}>
-          <option value="">Jump to a coach…</option>
-          {[...graph.nodes].sort((a, b) => b.deg - a.deg || a.id.localeCompare(b.id)).map((n) => (
-            <option key={n.id} value={n.id}>{n.id}{n.deg ? ` (${n.deg})` : ""}</option>
-          ))}
-        </select>
-        {focusId && (
-          <div className="flex items-center gap-1 ml-1">
-            <span style={{ color: MUTED }}>depth</span>
-            {([1, 2] as const).map((d) => (
-              <button key={d} onClick={() => setDepth(d)} className="px-2 py-1 rounded" style={{ border: "1px solid #ccc", background: depth === d ? NFL : "#fff", color: depth === d ? "#fff" : "#333" }}>{d}</button>
-            ))}
-          </div>
-        )}
+      {/* tabs */}
+      <div className="flex gap-1 mt-4" style={{ borderBottom: "2px solid #e5e5e5" }}>
+        {([["explore", "Explore"], ["leaderboard", "Leaderboard"], ["methodology", "Methodology"]] as const).map(([k, label]) => (
+          <button key={k} onClick={() => setTab(k)} className="px-4 py-2 text-sm font-medium"
+            style={{ background: "transparent", color: tab === k ? NFL : MUTED, borderBottom: tab === k ? `2px solid ${NFL}` : "2px solid transparent", marginBottom: -2 }}>{label}</button>
+        ))}
       </div>
-      <div className="mt-2 text-sm font-medium" style={{ color: NFL }}>{crumb}</div>
 
-      {colorBy === "lineage" && (
-        <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 text-xs" style={{ color: MUTED }}>
-          <span style={{ fontWeight: 700 }}>Founding trees:</span>
-          {lineage.legend.map((g) => (
-            <span key={g.root} onClick={() => goTo(g.root)} className="flex items-center gap-1" style={{ cursor: "pointer" }}
-              onMouseEnter={(e) => (e.currentTarget.style.color = NFL)} onMouseLeave={(e) => (e.currentTarget.style.color = "")}>
-              <span style={{ width: 10, height: 10, borderRadius: "50%", background: g.color, display: "inline-block" }} />
-              {g.root} <span style={{ opacity: 0.7 }}>({g.n})</span>
-            </span>
-          ))}
-          <span className="flex items-center gap-1">
-            <span style={{ width: 10, height: 10, borderRadius: "50%", background: LINEAGE_OTHER, display: "inline-block" }} />
-            other / unrooted
-          </span>
-        </div>
+      {tab === "explore" && (
+        <>
+          <div className="flex flex-wrap items-center gap-2 mt-3 text-sm">
+            <div className="flex rounded overflow-hidden" style={{ border: "1px solid #ccc" }}>
+              {(["3d", "2d"] as const).map((m) => (
+                <button key={m} onClick={() => setRender(m)} className="px-3 py-1"
+                  style={{ background: render === m ? NFL : "#fff", color: render === m ? "#fff" : "#333" }}>{m.toUpperCase()}</button>
+              ))}
+            </div>
+            <div className="flex rounded overflow-hidden" style={{ border: "1px solid #ccc" }}>
+              {(["lineage", "role"] as const).map((m) => (
+                <button key={m} onClick={() => setColorBy(m)} className="px-3 py-1"
+                  style={{ background: colorBy === m ? NFL : "#fff", color: colorBy === m ? "#fff" : "#333" }}>{m === "lineage" ? "Lineage" : "Current Role"}</button>
+              ))}
+            </div>
+            <button onClick={back} disabled={!history.length} className="px-3 py-1 rounded" style={{ border: "1px solid #ccc", background: "#fff", opacity: history.length ? 1 : 0.4 }}>← Back</button>
+            <button onClick={showAll} disabled={!focusId} className="px-3 py-1 rounded" style={{ border: "1px solid #ccc", background: "#fff", opacity: focusId ? 1 : 0.4 }}>⌂ Show all</button>
+            <select value={focusId ?? ""} onChange={(e) => (e.target.value ? goTo(e.target.value) : showAll())} className="px-2 py-1 rounded" style={{ border: "1px solid #ccc" }}>
+              <option value="">Jump to a coach…</option>
+              {[...graph.nodes].sort((a, b) => b.deg - a.deg || a.id.localeCompare(b.id)).map((n) => (
+                <option key={n.id} value={n.id}>{n.id}{n.deg ? ` (${n.deg})` : ""}</option>
+              ))}
+            </select>
+            {focusId && (
+              <div className="flex items-center gap-1 ml-1">
+                <span style={{ color: MUTED }}>depth</span>
+                {([1, 2] as const).map((d) => (
+                  <button key={d} onClick={() => setDepth(d)} className="px-2 py-1 rounded" style={{ border: "1px solid #ccc", background: depth === d ? NFL : "#fff", color: depth === d ? "#fff" : "#333" }}>{d}</button>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="mt-2 text-sm font-medium" style={{ color: NFL }}>{crumb}</div>
+
+          {colorBy === "lineage" && (
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 text-xs" style={{ color: MUTED }}>
+              <span style={{ fontWeight: 700 }}>Founding trees:</span>
+              {lineage.legend.map((g) => (
+                <span key={g.root} onClick={() => goTo(g.root)} className="flex items-center gap-1" style={{ cursor: "pointer" }}
+                  onMouseEnter={(e) => (e.currentTarget.style.color = NFL)} onMouseLeave={(e) => (e.currentTarget.style.color = "")}>
+                  <span style={{ width: 10, height: 10, borderRadius: "50%", background: g.color, display: "inline-block" }} />
+                  {g.root} <span style={{ opacity: 0.7 }}>({g.n})</span>
+                </span>
+              ))}
+              <span className="flex items-center gap-1">
+                <span style={{ width: 10, height: 10, borderRadius: "50%", background: LINEAGE_OTHER, display: "inline-block" }} />
+                other / unrooted
+              </span>
+            </div>
+          )}
+
+          <div className="flex gap-4 mt-2" style={{ alignItems: "flex-start" }}>
+            {/* graph fills all width left by the drawer */}
+            <div ref={hostRef} style={{ flex: 1, minWidth: 0, border: "1px solid #eee", borderRadius: 8, overflow: "hidden", background: render === "3d" ? "#0b1020" : "#fafafa", height: GRAPH_H }}>
+              {loading || !ready ? (
+                <p className="p-8" style={{ color: MUTED }}>{loading ? "Loading data…" : "Loading faces…"}</p>
+              ) : render === "3d" ? (
+                <ForceGraph3D ref={fg3d} graphData={view} width={graphW} height={GRAPH_H} backgroundColor="#0b1020"
+                  nodeThreeObject={node3D} linkColor={linkColorFn} linkWidth={colorBy === "lineage" ? 1.6 : 0.5} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1}
+                  onEngineStop={fitView} onNodeClick={(n: any) => goTo(n.id)} />
+              ) : (
+                <ForceGraph2D ref={fg2d} graphData={view} width={graphW} height={GRAPH_H} nodeCanvasObject={draw2D}
+                  nodePointerAreaPaint={(n: any, c, ctx) => { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(n.x, n.y, radius(n), 0, 2 * Math.PI); ctx.fill(); }}
+                  linkColor={linkColorFn} linkWidth={colorBy === "lineage" ? 1.2 : 0.6} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1} cooldownTicks={120} d3VelocityDecay={0.3}
+                  onEngineStop={fitView} onNodeClick={(n: any) => goTo(n.id)} />
+              )}
+            </div>
+
+            {/* detail drawer: only present (and only costs width) when a coach is focused */}
+            {focusId && byName.get(focusId) && (
+              <div style={{ width: DRAWER_W, flex: "0 0 auto", border: "1px solid #eee", borderRadius: 8, height: GRAPH_H, overflowY: "auto", padding: 14, background: "#fff", position: "relative" }}>
+                <button onClick={() => setFocusId(null)} title="Close" aria-label="Close"
+                  style={{ position: "absolute", right: 8, top: 8, border: "none", background: "transparent", color: MUTED, fontSize: 18, lineHeight: 1, cursor: "pointer" }}>✕</button>
+                <CoachCard c={byName.get(focusId)!} career={careerOf.get(focusId) ?? []} mentors={mentorsOf.get(focusId) ?? []} proteges={protegesOf.get(focusId) ?? []} hcSet={hcSet} tree={treeSize(focusId)} go={goTo} />
+              </div>
+            )}
+          </div>
+
+          <p className="text-xs mt-3" style={{ color: MUTED }}>
+            Click any face to focus it (a detail card opens on the right) · <b>← Back</b> / <b>⌂ Show all</b> to return · bigger nodes = more protégés.
+            Ring color: in <b>Lineage</b> mode each coach is tinted by their founding tree (traced through their longest-tenure mentor); in <b>Current Role</b> mode a navy ring marks a current 2026 coach.
+            Win% is NFL head-coaching regular season; rings count Super Bowls won as a coach (incl. as an assistant). Source: Wikipedia.
+          </p>
+        </>
       )}
 
-      <div className="flex gap-4 mt-2" style={{ alignItems: "flex-start" }}>
-        {/* graph */}
-        <div style={{ border: "1px solid #eee", borderRadius: 8, overflow: "hidden", background: render === "3d" ? "#0b1020" : "#fafafa", width: GRAPH_W, height: HEIGHT, flex: "0 0 auto" }}>
-          {loading || !ready ? (
-            <p className="p-8" style={{ color: MUTED }}>{loading ? "Loading data…" : "Loading faces…"}</p>
-          ) : render === "3d" ? (
-            <ForceGraph3D ref={fg3d} graphData={view} width={GRAPH_W} height={HEIGHT} backgroundColor="#0b1020"
-              nodeThreeObject={node3D} linkColor={linkColorFn} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1} linkOpacity={0.35}
-              onEngineStop={fitView} onNodeClick={(n: any) => goTo(n.id)} />
-          ) : (
-            <ForceGraph2D ref={fg2d} graphData={view} width={GRAPH_W} height={HEIGHT} nodeCanvasObject={draw2D}
-              nodePointerAreaPaint={(n: any, c, ctx) => { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(n.x, n.y, radius(n), 0, 2 * Math.PI); ctx.fill(); }}
-              linkColor={linkColorFn} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1} cooldownTicks={120} d3VelocityDecay={0.3}
-              onEngineStop={fitView} onNodeClick={(n: any) => goTo(n.id)} />
-          )}
-        </div>
+      {tab === "leaderboard" && <Leaderboard leaders={leaders} go={jumpFromTab} />}
 
-        {/* side panel: coach detail when focused, else leaderboard */}
-        <div style={{ width: 320, flex: "0 0 auto", border: "1px solid #eee", borderRadius: 8, height: HEIGHT, overflowY: "auto", padding: 14, background: "#fff" }}>
-          {focusId && byName.get(focusId)
-            ? <CoachCard c={byName.get(focusId)!} career={careerOf.get(focusId) ?? []} mentors={mentorsOf.get(focusId) ?? []} proteges={protegesOf.get(focusId) ?? []} hcSet={hcSet} tree={treeSize(focusId)} go={goTo} />
-            : <Leaderboard leaders={leaders} go={goTo} />}
-        </div>
-      </div>
-
-      <p className="text-xs mt-3" style={{ color: MUTED }}>
-        Click any face to focus it and see their card · <b>← Back</b> / <b>⌂ Show all</b> to return · bigger nodes = more protégés.
-        Ring color: in <b>Lineage</b> mode each coach is tinted by their founding tree (traced through their longest-tenure mentor); in <b>Current Role</b> mode a navy ring marks a current 2026 coach.
-        Win% is NFL head-coaching regular season; rings count Super Bowls won as a coach (incl. as an assistant). Source: Wikipedia.
-      </p>
+      {tab === "methodology" && <Methodology nodes={graph.nodes.length} links={graph.links.length} />}
     </div>
   );
 }
@@ -389,26 +424,94 @@ function Row({ name, sub, hc, go }: { name: string; sub: string; hc: boolean; go
 }
 
 function Leaderboard({ leaders, go }: { leaders: { name: string; n: number; hcs: number; wp: string | null; rings: number; tree: number }[]; go: (id: string) => void }) {
+  const head = { fontWeight: 700, color: MUTED, fontSize: 12, textTransform: "uppercase" as const, letterSpacing: 0.4, padding: "6px 10px", borderBottom: "2px solid #e5e5e5" };
+  const cell = { padding: "6px 10px", borderBottom: "1px solid #f0f0f0", fontSize: 14 };
+  const num = { ...cell, textAlign: "right" as const };
   return (
-    <div>
-      <div style={{ fontSize: 15, fontWeight: 700, color: NFL }}>Biggest coaching trees</div>
-      <div style={{ fontSize: 11, color: MUTED, marginBottom: 8 }}>Ranked by direct protégés. Click a coach to open their tree. ★ = Super Bowl rings; →HC = protégés who became head coaches.</div>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto auto", gap: "2px 10px", fontSize: 12 }}>
-        <div style={{ fontWeight: 700, color: MUTED }}>Coach</div>
-        <div style={{ fontWeight: 700, color: MUTED, textAlign: "right" }}>prot.</div>
-        <div style={{ fontWeight: 700, color: MUTED, textAlign: "right" }}>→HC</div>
-        <div style={{ fontWeight: 700, color: MUTED, textAlign: "right" }}>win%</div>
-        {leaders.map((r) => (
-          <div key={r.name} style={{ display: "contents" }}>
-            <div onClick={() => go(r.name)} style={{ cursor: "pointer" }} onMouseEnter={(e) => (e.currentTarget.style.color = NFL)} onMouseLeave={(e) => (e.currentTarget.style.color = "")}>
-              {r.name}{r.rings ? <span title="Super Bowl rings"> {"★".repeat(Math.min(r.rings, 4))}</span> : ""}
-            </div>
-            <div style={{ textAlign: "right", fontWeight: 700 }}>{r.n}</div>
-            <div style={{ textAlign: "right", color: MUTED }}>{r.hcs}</div>
-            <div style={{ textAlign: "right", color: MUTED }}>{r.wp ?? "—"}</div>
-          </div>
-        ))}
+    <div className="mt-4" style={{ maxWidth: 760 }}>
+      <div style={{ fontSize: 18, fontWeight: 700, color: NFL }}>Biggest coaching trees</div>
+      <div style={{ fontSize: 12, color: MUTED, marginBottom: 10 }}>
+        Ranked by direct protégés (assistants who served under them). Click any coach to open their network on the Explore tab.
+        <b> →HC</b> = protégés who went on to be NFL head coaches · <b>tree</b> = total descendants, all generations · ★ = Super Bowls won.
       </div>
+      <table style={{ width: "100%", borderCollapse: "collapse" }}>
+        <thead>
+          <tr>
+            <th style={{ ...head, textAlign: "right", width: 36 }}>#</th>
+            <th style={{ ...head, textAlign: "left" }}>Coach</th>
+            <th style={{ ...head, textAlign: "right" }}>Protégés</th>
+            <th style={{ ...head, textAlign: "right" }}>→HC</th>
+            <th style={{ ...head, textAlign: "right" }}>Tree</th>
+            <th style={{ ...head, textAlign: "right" }}>HC win%</th>
+            <th style={{ ...head, textAlign: "right" }}>Rings</th>
+          </tr>
+        </thead>
+        <tbody>
+          {leaders.map((r, i) => (
+            <tr key={r.name} onClick={() => go(r.name)} style={{ cursor: "pointer" }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = "#f6f8fb")} onMouseLeave={(e) => (e.currentTarget.style.background = "")}>
+              <td style={{ ...num, color: MUTED }}>{i + 1}</td>
+              <td style={{ ...cell, fontWeight: 600, color: NFL }}>{r.name}</td>
+              <td style={{ ...num, fontWeight: 700 }}>{r.n}</td>
+              <td style={num}>{r.hcs}</td>
+              <td style={{ ...num, color: MUTED }}>{r.tree}</td>
+              <td style={num}>{r.wp ?? "—"}</td>
+              <td style={{ ...num, color: r.rings ? "#b8860b" : MUTED }}>{r.rings ? "★".repeat(Math.min(r.rings, 4)) : "—"}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function Methodology({ nodes, links }: { nodes: number; links: number }) {
+  const H = ({ children }: { children: React.ReactNode }) => <div style={{ fontSize: 15, fontWeight: 700, color: NFL, marginTop: 18, marginBottom: 4 }}>{children}</div>;
+  const P = ({ children }: { children: React.ReactNode }) => <p style={{ fontSize: 14, lineHeight: 1.55, marginBottom: 6 }}>{children}</p>;
+  return (
+    <div className="mt-4" style={{ maxWidth: 760, color: "#231f20" }}>
+      <div style={{ fontSize: 20, fontWeight: 700, color: NFL }}>How this was built</div>
+      <P>
+        A <b>{nodes}-coach, {links}-relationship</b> graph of the 2026 NFL coaching staffs and the head coaches they trained under,
+        assembled entirely from Wikipedia and served from a self-contained MotherDuck database.
+      </P>
+
+      <H>Data</H>
+      <P>
+        We start from the 32 current head coaches plus each team's offensive and defensive coordinators (some teams have none — the head coach calls plays).
+        For every coach we fetch their Wikipedia "coaching career" history, and for all 32 franchises the full "List of head coaches" tables.
+      </P>
+
+      <H>Deriving who served under whom</H>
+      <P>
+        Each assistant stint is expanded to individual seasons and joined to whoever was head coach of that franchise that year.
+        Franchises are canonicalized across relocations and renames (Oakland/LA/Las Vegas Raiders, Redskins→Commanders, Oilers→Titans, …) so the eras line up.
+        That join produces the mentor→protégé edges; arrows in the graph point from a head coach to the people who worked under them.
+      </P>
+
+      <H>Founding trees (lineage coloring)</H>
+      <P>
+        The raw graph is a tangle — a coach often served under several head coaches. To draw clean trees we give each coach a single
+        <i> primary</i> mentor (the head coach they spent the most seasons under) and trace that chain to its root. The six largest roots get distinct colors;
+        everyone else is grey. This is why familiar trees emerge — Shanahan → McVay/LaFleur/McDaniel, Holmgren → Reid/Harbaugh, Parcells → Payton/Campbell.
+      </P>
+
+      <H>Records and parsing</H>
+      <P>
+        Win–loss records and Super Bowl rings come from each coach's infobox; win% is NFL head-coaching regular season only, so dual college/NFL coaches
+        show their NFL figures. Messy wikitext (templates, multi-league careers) was parsed with a mix of deterministic fetching and LLM extraction.
+      </P>
+
+      <H>Hosting</H>
+      <P>
+        Faces are 96px thumbnails stored as base64 directly in the MotherDuck table and rendered as data-URIs, so the visualization needs no external image host.
+        Everything you see is one React component reading three tables (coaches, edges, stints) live from MotherDuck.
+      </P>
+
+      <P style={{ color: MUTED, fontSize: 12, marginTop: 12 }}>
+        Limitations: coverage is only as deep as Wikipedia's coaching histories, so some chains are shallow (a mentor may be attributed to the wrong founder when an
+        earlier link is missing). Minor/short assistant stints can be incomplete. Source: Wikipedia, retrieved 2026.
+      </P>
     </div>
   );
 }

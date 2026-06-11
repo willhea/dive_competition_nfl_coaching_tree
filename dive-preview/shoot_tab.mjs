@@ -1,0 +1,13 @@
+import { chromium } from "playwright";
+const tab = process.argv[2];
+const out = process.argv[3];
+const b = await chromium.launch();
+const p = await b.newPage({ viewport: { width: 900, height: 900 } });
+const errs=[]; p.on("pageerror",e=>errs.push(e.message));
+await p.goto("http://localhost:5173/", { waitUntil: "load" });
+await p.getByRole("heading", { name: /NFL Coaching Tree/i }).waitFor({ timeout: 40000 });
+await p.getByRole("button", { name: new RegExp(`^${tab}$`) }).click();
+await p.waitForTimeout(1500);
+await p.screenshot({ path: out, fullPage: true });
+console.log("errors:", errs.length?errs.slice(0,3):"none");
+await b.close();
