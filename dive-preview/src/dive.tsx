@@ -34,6 +34,12 @@ const hexA = (hex: string, a: number) => {
   const n = parseInt(hex.slice(1), 16);
   return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${a})`;
 };
+const overlayBtn = (render: "3d" | "2d"): React.CSSProperties => ({
+  fontSize: 12, padding: "4px 8px", borderRadius: 6, cursor: "pointer", lineHeight: 1,
+  border: render === "3d" ? "1px solid rgba(255,255,255,0.35)" : "1px solid #ccc",
+  background: render === "3d" ? "rgba(20,28,52,0.7)" : "rgba(255,255,255,0.9)",
+  color: render === "3d" ? "#e6ecff" : "#333",
+});
 
 export default function CoachingTree() {
   const coachesQ = useSQLQuery<Coach[]>(`SELECT name, image_b64, is_roster, is_nfl_hc, hc_wins, hc_losses, hc_ties, super_bowl_rings FROM nfl_coaching_tree.coaches`);
@@ -223,6 +229,9 @@ export default function CoachingTree() {
   const fg2d = useRef<any>(null); const fg3d = useRef<any>(null);
   const hostRef = useRef<HTMLDivElement>(null);
   const [graphW, setGraphW] = useState(900);
+  const [graphH, setGraphH] = useState(GRAPH_H);
+  const [isFs, setIsFs] = useState(false);   // native fullscreen
+  const [cssFs, setCssFs] = useState(false); // CSS-overlay fallback (works inside the Dive iframe)
   // Snap straight to the framed view — duration 0, no animation (any zoom tween
   // reads as lag, and it re-fires as the engine settles). zoomToFit frames the whole
   // bounding box, which leaves the dense core small (scattered low-degree nodes inflate
@@ -244,12 +253,36 @@ export default function CoachingTree() {
   // graph fills whatever width the (full-width, drawer-aware) host gives it
   useEffect(() => {
     const el = hostRef.current; if (!el) return;
-    const measure = () => setGraphW(Math.max(320, el.clientWidth));
+    const measure = () => { setGraphW(Math.max(320, el.clientWidth)); setGraphH(Math.max(320, el.clientHeight)); };
     measure();
     const ro = new ResizeObserver(measure); ro.observe(el);
     return () => ro.disconnect();
   }, [tab, focusId, render]);
-  useEffect(() => { fitView(); }, [graphW]); // refit when the canvas resizes
+  useEffect(() => { fitView(); }, [graphW, graphH]); // refit when the canvas resizes (incl. fullscreen)
+
+  // fullscreen the graph container; the overlay buttons live inside it so they stay reachable.
+  // Prefer the native Fullscreen API, but fall back to a CSS fixed-overlay when it's blocked
+  // (e.g. the Dive renders us in an iframe without fullscreen permission).
+  const fsActive = isFs || cssFs;
+  useEffect(() => {
+    const onFs = () => setIsFs(!!document.fullscreenElement);
+    document.addEventListener("fullscreenchange", onFs);
+    return () => document.removeEventListener("fullscreenchange", onFs);
+  }, []);
+  useEffect(() => {
+    if (!cssFs) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setCssFs(false); };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [cssFs]);
+  const toggleFs = () => {
+    const el = hostRef.current; if (!el) return;
+    if (document.fullscreenElement) { document.exitFullscreen?.(); return; }
+    if (cssFs) { setCssFs(false); return; }
+    const req = el.requestFullscreen?.();
+    if (req?.catch) req.catch(() => setCssFs(true));   // blocked → CSS overlay
+    else if (!el.requestFullscreen) setCssFs(true);    // unsupported → CSS overlay
+  };
 
   const crumb = focusId ? `${focusId}'s network · ${depth === 1 ? "direct" : "2 steps"}` : `All ${graph.nodes.length} coaches`;
 
@@ -337,15 +370,24 @@ export default function CoachingTree() {
 
           <div className="flex gap-4 mt-2" style={{ alignItems: "flex-start" }}>
             {/* graph fills all width left by the drawer */}
-            <div ref={hostRef} style={{ flex: 1, minWidth: 0, border: "1px solid #eee", borderRadius: 8, overflow: "hidden", background: render === "3d" ? "#0b1020" : "#fafafa", height: GRAPH_H }}>
+            <div ref={hostRef} style={{
+              border: "1px solid #eee", overflow: "hidden", background: render === "3d" ? "#0b1020" : "#fafafa",
+              ...(cssFs
+                ? { position: "fixed", inset: 0, zIndex: 9999, width: "100vw", height: "100vh", borderRadius: 0 }
+                : { position: "relative", flex: 1, minWidth: 0, borderRadius: isFs ? 0 : 8, height: isFs ? "100%" : GRAPH_H }),
+            }}>
+              <div style={{ position: "absolute", top: 8, right: 8, zIndex: 5, display: "flex", gap: 6 }}>
+                <button onClick={fitView} title="Reset view" style={overlayBtn(render)}>⟲ Reset</button>
+                <button onClick={toggleFs} title={fsActive ? "Exit full screen" : "Full screen"} style={overlayBtn(render)}>{fsActive ? "✕ Exit" : "⛶ Full screen"}</button>
+              </div>
               {loading || !ready ? (
                 <p className="p-8" style={{ color: MUTED }}>{loading ? "Loading data…" : "Loading faces…"}</p>
               ) : render === "3d" ? (
-                <ForceGraph3D ref={fg3d} graphData={view} width={graphW} height={GRAPH_H} backgroundColor="#0b1020"
+                <ForceGraph3D ref={fg3d} graphData={view} width={graphW} height={graphH} backgroundColor="#0b1020"
                   nodeThreeObject={node3D} linkColor={linkColorFn} linkWidth={colorBy === "lineage" ? 1.6 : 0.5} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1}
                   warmupTicks={60} onEngineTick={onTick} onEngineStop={fitView} onNodeClick={(n: any) => goTo(n.id)} />
               ) : (
-                <ForceGraph2D ref={fg2d} graphData={view} width={graphW} height={GRAPH_H} nodeCanvasObject={draw2D}
+                <ForceGraph2D ref={fg2d} graphData={view} width={graphW} height={graphH} nodeCanvasObject={draw2D}
                   nodePointerAreaPaint={(n: any, c, ctx) => { ctx.fillStyle = c; ctx.beginPath(); ctx.arc(n.x, n.y, radius(n), 0, 2 * Math.PI); ctx.fill(); }}
                   linkColor={linkColorFn} linkWidth={colorBy === "lineage" ? 1.2 : 0.6} linkDirectionalArrowLength={3} linkDirectionalArrowRelPos={1}
                   warmupTicks={90} cooldownTicks={60} d3VelocityDecay={0.4} onEngineTick={onTick}
