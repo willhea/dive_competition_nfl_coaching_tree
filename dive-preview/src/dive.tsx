@@ -223,23 +223,18 @@ export default function CoachingTree() {
   const fg2d = useRef<any>(null); const fg3d = useRef<any>(null);
   const hostRef = useRef<HTMLDivElement>(null);
   const [graphW, setGraphW] = useState(900);
-  // zoomToFit frames the whole bounding box, which leaves the dense core small
-  // (scattered low-degree nodes inflate the box). Fit, then push in past the fit so
-  // the graph fills the window; the user can still zoom/pan out.
+  // Single smooth fit. zoomToFit frames the whole bounding box, which leaves the
+  // dense core small (scattered low-degree nodes inflate the box). A *negative*
+  // padding overscans, filling the window in one animation — no second stage / wobble.
   const fitView = () => setTimeout(() => {
     try {
-      if (render === "3d") {
-        const fg = fg3d.current; if (!fg) return;
-        fg.zoomToFit(500, focusId ? 40 : 16);
-        const f = focusId ? 0.82 : 0.6; // move camera toward center => zoom in
-        setTimeout(() => { const c = fg.cameraPosition(); fg.cameraPosition({ x: c.x * f, y: c.y * f, z: c.z * f }, undefined, 500); }, 560);
-      } else {
-        const fg = fg2d.current; if (!fg) return;
-        fg.zoomToFit(500, focusId ? 50 : 22);
-        setTimeout(() => { try { fg.zoom(fg.zoom() * (focusId ? 1.25 : 1.7), 500); } catch {} }, 560);
-      }
+      const fg = (render === "3d" ? fg3d : fg2d).current; if (!fg) return;
+      // NB: 3D zoomToFit padding saturates (camera distance is driven by z-depth),
+      // so a larger negative has little effect there; 2D overscans cleanly.
+      const pad = focusId ? (render === "3d" ? 20 : 40) : render === "3d" ? -120 : -150;
+      fg.zoomToFit(450, pad);
     } catch {}
-  }, 60);
+  }, 80);
   // graph fills whatever width the (full-width, drawer-aware) host gives it
   useEffect(() => {
     const el = hostRef.current; if (!el) return;
