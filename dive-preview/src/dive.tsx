@@ -318,7 +318,8 @@ function Row({ name, sub, hc, go }: { name: string; sub: string; hc: boolean; go
   return (
     <div onClick={() => go(name)} style={{ fontSize: 13, padding: "3px 0", cursor: "pointer", display: "flex", justifyContent: "space-between" }}
       onMouseEnter={(e) => (e.currentTarget.style.color = NFL)} onMouseLeave={(e) => (e.currentTarget.style.color = "")}>
-      <span>{hc ? "★ " : ""}{name}</span><span style={{ color: MUTED, fontSize: 11 }}>{sub}</span>
+      <span>{name}{hc && <span style={{ fontSize: 9, color: NFL, border: `1px solid ${NFL}`, borderRadius: 3, padding: "0 3px", marginLeft: 5, verticalAlign: "middle" }}>HC</span>}</span>
+      <span style={{ color: MUTED, fontSize: 11 }}>{sub}</span>
     </div>
   );
 }
@@ -327,7 +328,7 @@ function Leaderboard({ leaders, go }: { leaders: { name: string; n: number; hcs:
   return (
     <div>
       <div style={{ fontSize: 15, fontWeight: 700, color: NFL }}>Biggest coaching trees</div>
-      <div style={{ fontSize: 11, color: MUTED, marginBottom: 8 }}>Ranked by direct protégés. Click a coach to open their tree.</div>
+      <div style={{ fontSize: 11, color: MUTED, marginBottom: 8 }}>Ranked by direct protégés. Click a coach to open their tree. ★ = Super Bowl rings; →HC = protégés who became head coaches.</div>
       <div style={{ display: "grid", gridTemplateColumns: "1fr auto auto auto", gap: "2px 10px", fontSize: 12 }}>
         <div style={{ fontWeight: 700, color: MUTED }}>Coach</div>
         <div style={{ fontWeight: 700, color: MUTED, textAlign: "right" }}>prot.</div>
