@@ -13,6 +13,7 @@ const MUTED = "#6a6a6a";
 const GRAPH_H = 620;
 const DRAWER_W = 340;
 const ALL = "__ALL__";
+const REPO_URL = "https://github.com/willhea/dive_competition_nfl_coaching_tree";
 
 type Coach = {
   name: string; image_b64: string | null; is_roster: boolean; is_nfl_hc: boolean;
@@ -409,6 +410,8 @@ export default function CoachingTree() {
             Click any face to focus it (a detail card opens on the right) · <b>← Back</b> / <b>⌂ Show all</b> to return · bigger nodes = more protégés.
             Ring color: in <b>Lineage</b> mode each coach is tinted by their founding tree (traced through their longest-tenure mentor); in <b>Current Role</b> mode a navy ring marks a current 2026 coach.
             Win% is NFL head-coaching regular season; rings count Super Bowls won as a coach (incl. as an assistant). Source: Wikipedia.
+            {" · "}
+            <a href={REPO_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#0000EE", textDecoration: "underline" }}>Code &amp; methodology on GitHub</a>
           </p>
         </>
       )}
@@ -603,6 +606,10 @@ function Methodology({ nodes, links }: { nodes: number; links: number }) {
       <P style={{ color: MUTED, fontSize: 12, marginTop: 12 }}>
         Limitations: coverage is only as deep as Wikipedia's coaching histories, so some chains are shallow (a mentor may be attributed to the wrong founder when an
         earlier link is missing). Minor/short assistant stints can be incomplete. Source: Wikipedia, retrieved 2026.
+      </P>
+      <P>
+        Open source — the full data pipeline and this component are on{" "}
+        <a href={REPO_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#0000EE", textDecoration: "underline" }}>GitHub</a>.
       </P>
     </div>
   );
