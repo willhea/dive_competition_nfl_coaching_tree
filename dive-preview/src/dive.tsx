@@ -250,7 +250,7 @@ export default function CoachingTree() {
 
       <p className="text-xs mt-3" style={{ color: MUTED }}>
         Click any face to focus it and see their card · <b>← Back</b> / <b>⌂ Show all</b> to return · bigger nodes = more protégés, navy ring = current 2026 coach.
-        Win% is head-coaching regular season; rings count Super Bowls won as a coach (incl. as an assistant). Source: Wikipedia.
+        Win% is NFL head-coaching regular season; rings count Super Bowls won as a coach (incl. as an assistant). Source: Wikipedia.
       </p>
     </div>
   );

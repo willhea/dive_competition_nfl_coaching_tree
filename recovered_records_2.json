@@ -1,0 +1,19 @@
+{
+  "Bobby Petrino": {"wins": 3, "losses": 10, "ties": 0},
+  "Greg Schiano": {"wins": 11, "losses": 21, "ties": 0},
+  "Jay Gruden": {"wins": 35, "losses": 49, "ties": 1},
+  "Jim Caldwell": {"wins": 62, "losses": 50, "ties": 0},
+  "Jim E. Mora": {"wins": 125, "losses": 106, "ties": 0},
+  "Jim L. Mora": {"wins": 31, "losses": 33, "ties": 0},
+  "Joe Brady": {"wins": 0, "losses": 0, "ties": 0},
+  "Joe Vitt": {"wins": 9, "losses": 12, "ties": 0},
+  "John Fox": {"wins": 133, "losses": 123, "ties": 0},
+  "Leslie Frazier": {"wins": 21, "losses": 32, "ties": 1},
+  "Matt Rhule": {"wins": 11, "losses": 27, "ties": 0},
+  "Mike McCoy": {"wins": 29, "losses": 46, "ties": 0},
+  "Perry Fewell": {"wins": 3, "losses": 8, "ties": 0},
+  "Robert Prince": {"wins": 0, "losses": 1, "ties": 0},
+  "Steve Wilks": {"wins": 9, "losses": 19, "ties": 0},
+  "Thomas Brown": {"wins": 1, "losses": 4, "ties": 0},
+  "Urban Meyer": {"wins": 2, "losses": 11, "ties": 0}
+}
