@@ -167,9 +167,9 @@ export default function CoachingTree() {
     };
   }, [focusId, depth, graph, adj]);
 
-  const goTo = (id: string) => { if (id !== focusId) { setHistory((h) => [...h, focusId ?? ALL]); setFocusId(id); } };
+  const goTo = (id: string) => { setRotate(false); if (id !== focusId) { setHistory((h) => [...h, focusId ?? ALL]); setFocusId(id); } };
   const back = () => setHistory((h) => { if (!h.length) return h; const p = h[h.length - 1]; setFocusId(p === ALL ? null : p); return h.slice(0, -1); });
-  const showAll = () => { setFocusId(null); setHistory([]); };
+  const showAll = () => { setFocusId(null); setHistory([]); setRotate(true); };
 
   const hostRef = useRef<HTMLDivElement>(null);
   const [graphW, setGraphW] = useState(900);
@@ -177,6 +177,7 @@ export default function CoachingTree() {
   const [isFs, setIsFs] = useState(false);   // native fullscreen
   const [cssFs, setCssFs] = useState(false); // CSS-overlay fallback (works inside the Dive iframe)
   const [resetSignal, setResetSignal] = useState(0); // bump to re-frame the canvas graph
+  const [rotate, setRotate] = useState(true);        // 3D auto-rotate; stops on first interaction
   // graph fills whatever width the (full-width, drawer-aware) host gives it
   useEffect(() => {
     const el = hostRef.current; if (!el) return;
@@ -248,7 +249,7 @@ export default function CoachingTree() {
           <div className="flex flex-wrap items-center gap-2 mt-3 text-sm">
             <div className="flex rounded overflow-hidden" style={{ border: "1px solid #ccc" }}>
               {(["3d", "2d"] as const).map((m) => (
-                <button key={m} onClick={() => setRender(m)} className="px-3 py-1"
+                <button key={m} onClick={() => { setRender(m); if (m === "3d") setRotate(true); }} className="px-3 py-1"
                   style={{ background: render === m ? NFL : "#fff", color: render === m ? "#fff" : "#333" }}>{m.toUpperCase()}</button>
               ))}
             </div>
@@ -303,6 +304,10 @@ export default function CoachingTree() {
                 : { position: "relative", flex: 1, minWidth: 0, borderRadius: isFs ? 0 : 8, height: isFs ? "100%" : GRAPH_H }),
             }}>
               <div style={{ position: "absolute", top: 8, right: 8, zIndex: 5, display: "flex", gap: 6 }}>
+                {render === "3d" && (
+                  <button onClick={() => setRotate((r) => !r)} title={rotate ? "Stop rotation" : "Auto-rotate"}
+                    style={{ ...overlayBtn(render), background: rotate ? NFL : "rgba(20,28,52,0.7)", color: "#fff" }}>↻ Rotate</button>
+                )}
                 <button onClick={() => setResetSignal((s) => s + 1)} title="Reset view" style={overlayBtn(render)}>⟲ Reset</button>
                 <button onClick={toggleFs} title={fsActive ? "Exit full screen" : "Full screen"} style={overlayBtn(render)}>{fsActive ? "✕ Exit" : "⛶ Full screen"}</button>
               </div>
@@ -311,7 +316,8 @@ export default function CoachingTree() {
               ) : (
                 <GraphCanvas nodes={view.nodes} links={view.links} mode={render} colorBy={colorBy}
                   focusId={focusId} colorOf={lineage.colorOf} width={graphW} height={graphH}
-                  imagesRef={imgCache} onNodeClick={goTo} resetSignal={resetSignal} />
+                  imagesRef={imgCache} onNodeClick={goTo} resetSignal={resetSignal}
+                  autoRotate={rotate} onInteract={() => setRotate(false)} />
               )}
             </div>
 
@@ -350,12 +356,13 @@ type Pos = { x: number; y: number; z: number; vx: number; vy: number; vz: number
 const REP = 4200, SPRING = 0.05, L0 = 34, CENTER = 0.025, DAMP = 0.86, A_MIN = 0.02;
 const nodeWorldR = (deg: number) => 1.6 + Math.min(deg, 14) * 0.5;
 
-function GraphCanvas({ nodes, links, mode, colorBy, focusId, colorOf, width, height, imagesRef, onNodeClick, resetSignal }: {
+function GraphCanvas({ nodes, links, mode, colorBy, focusId, colorOf, width, height, imagesRef, onNodeClick, resetSignal, autoRotate, onInteract }: {
   nodes: GNode[]; links: { source: string; target: string }[];
   mode: "3d" | "2d"; colorBy: "lineage" | "role"; focusId: string | null;
   colorOf: (id: string) => string; width: number; height: number;
   imagesRef: React.MutableRefObject<Map<string, HTMLImageElement>>;
   onNodeClick: (id: string) => void; resetSignal: number;
+  autoRotate: boolean; onInteract: () => void;
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const posRef = useRef<Map<string, Pos>>(new Map());
@@ -365,7 +372,7 @@ function GraphCanvas({ nodes, links, mode, colorBy, focusId, colorOf, width, hei
   const drag = useRef({ active: false, moved: false, x: 0, y: 0 });
 
   // keep latest props in refs so the single rAF loop never goes stale
-  const R = { nodes, links, mode, colorBy, focusId, colorOf, width, height, imagesRef, onNodeClick };
+  const R = { nodes, links, mode, colorBy, focusId, colorOf, width, height, imagesRef, onNodeClick, autoRotate, onInteract };
   const ref = useRef(R); ref.current = R;
 
   const stepSim = () => {
@@ -455,7 +462,7 @@ function GraphCanvas({ nodes, links, mode, colorBy, focusId, colorOf, width, hei
       if (cv) {
         const { width: w, height: h, mode: md, colorBy: cb, focusId: fid, colorOf: cof, nodes: ns, links: ls, imagesRef: imgs } = ref.current;
         if (alphaRef.current > A_MIN) { stepSim(); stepSim(); }
-        if (md === "3d" && !drag.current.active && !fid && alphaRef.current <= A_MIN) cam.current.yaw += 0.0016; // gentle drift
+        if (md === "3d" && ref.current.autoRotate && !drag.current.active) cam.current.yaw += 0.0016; // gentle drift; off after first interaction
         const dpr = Math.min(2, window.devicePixelRatio || 1);
         if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
         const ctx = cv.getContext("2d");
@@ -521,7 +528,7 @@ function GraphCanvas({ nodes, links, mode, colorBy, focusId, colorOf, width, hei
   // interaction: orbit / pan / zoom / click
   useEffect(() => {
     const cv = canvasRef.current; if (!cv) return;
-    const down = (e: PointerEvent) => { drag.current = { active: true, moved: false, x: e.clientX, y: e.clientY }; };
+    const down = (e: PointerEvent) => { drag.current = { active: true, moved: false, x: e.clientX, y: e.clientY }; ref.current.onInteract(); };
     const move = (e: PointerEvent) => {
       if (!drag.current.active) return;
       const dx = e.clientX - drag.current.x, dy = e.clientY - drag.current.y;
@@ -542,7 +549,7 @@ function GraphCanvas({ nodes, links, mode, colorBy, focusId, colorOf, width, hei
       drag.current.active = false;
     };
     const wheel = (e: WheelEvent) => {
-      e.preventDefault();
+      e.preventDefault(); ref.current.onInteract();
       if (ref.current.mode === "3d") cam.current.dist = Math.max(60, Math.min(6000, cam.current.dist * (1 + e.deltaY * 0.0012)));
       else cam.current.zoom = Math.max(0.05, Math.min(20, cam.current.zoom * (1 - e.deltaY * 0.0012)));
     };
