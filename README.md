@@ -16,7 +16,7 @@ layer (plain HTTP, reproducible) and an *LLM extraction* layer (Haiku subagents 
 wikitext into structured rows):
 
 ```
-roster.json            current 32-team HC/OC/DC slate (head coaches verified vs Wikipedia's list)
+roster.json            current 32-team HC/OC/DC slate (HC/OC/DC cross-checked vs Wikipedia's current-staff lists)
 fetch_wikitext.py      pull each coach's infobox `pastcoaching` field + lead image  (deterministic)
   -> Haiku subagents   parse pastcoaching -> stints (coach, team, years, role, is_head_coach)
 fetch_hc_lists.py      pull all 32 "List of <team> head coaches" pages              (deterministic)
@@ -38,14 +38,22 @@ team's name at the time.
 
 ## Known limitations
 
-- **Coordinators are not independently verified** the way head coaches were (sourced from team
-  announcements via web search). See open issues.
+- Rosters are a 2026-season snapshot. Current head coaches, offensive, and defensive coordinators
+  were cross-checked against Wikipedia's current-staff lists, but mid-season staff changes after
+  capture aren't reflected.
 - ~250 older assistant-years have no head-coach match (minor/obscure historical HCs); accepted.
 - Edge year-spans collapse to first/last year, so two separate stints under one coach show as one
   merged span.
+- Founding-tree (lineage) assignment follows each coach's longest-tenure mentor, so a chain can
+  trace to the wrong founder when an earlier link is missing from Wikipedia's data.
 
 ## The Dive component
 
 `dive-preview/` is a local Vite harness mirroring the MotherDuck Dive runtime (React +
-`@motherduck/wasm-client`). `src/dive.tsx` is the graph component (`react-force-graph` 2D/3D).
-Run `npm install && npm run dev` in that folder (needs `VITE_MOTHERDUCK_TOKEN` in `.env`).
+`@motherduck/wasm-client`). `src/dive.tsx` is the entire Dive: a self-contained `<canvas>` graph
+(a hand-rolled 3D force layout + perspective projection, with 2D and orbit/zoom controls), plus
+the leaderboard and methodology tabs. It deliberately uses **only React** — no `three.js` or
+`react-force-graph` — because the published MotherDuck Dive runtime resolves a fixed library set,
+so the graph is drawn from scratch on a canvas (see
+`notes/motherduck-feature-request-dive-libraries.md`). Run `npm install && npm run dev` in that
+folder (needs `VITE_MOTHERDUCK_TOKEN` in `.env`).

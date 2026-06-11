@@ -28,6 +28,10 @@ const winPct = (c: Coach) =>
     ? (c.hc_wins / (c.hc_wins + (c.hc_losses ?? 0))).toFixed(3).replace(/^0/, "")
     : null;
 const yrs = (a: number, b: number) => (b >= 9999 ? `${a}–present` : a === b ? `${a}` : `${a}–${b}`);
+// DuckDB can hand integer columns back as JS bigint, which throws on arithmetic / JSX.
+// Coerce every numeric column at load so the rest of the component stays plain numbers.
+const N = (v: unknown): number => (v == null ? 0 : Number(v));
+const Nz = (v: unknown): number | null => (v == null ? null : Number(v));
 // distinct, readable on both the dark 3D and light 2D backgrounds
 const LINEAGE_PALETTE = ["#ff7f0e", "#1f9e89", "#e4b400", "#2e7fd0", "#9b5de5", "#e36bae", "#d6336c", "#3bb273"];
 const LINEAGE_OTHER = "#8a8a8a";
@@ -43,12 +47,19 @@ const overlayBtn = (render: "3d" | "2d"): React.CSSProperties => ({
 });
 
 export default function CoachingTree() {
-  const coachesQ = useSQLQuery<Coach[]>(`SELECT name, image_b64, is_roster, is_nfl_hc, hc_wins, hc_losses, hc_ties, super_bowl_rings FROM nfl_coaching_tree.coaches`);
-  const edgesQ = useSQLQuery<Edge[]>(`SELECT coach, served_under, first_year, last_year FROM nfl_coaching_tree.edges`);
-  const stintsQ = useSQLQuery<Stint[]>(`SELECT coach, team, start_year, end_year, role, is_head_coach FROM nfl_coaching_tree.stints`);
-  const coaches = (coachesQ.data ?? []) as Coach[];
-  const edges = (edgesQ.data ?? []) as Edge[];
-  const stints = (stintsQ.data ?? []) as Stint[];
+  const coachesQ = useSQLQuery<Coach[]>(`SELECT name, image_b64, is_roster, is_nfl_hc, hc_wins, hc_losses, hc_ties, super_bowl_rings FROM "nfl_coaching_tree"."main"."coaches"`);
+  const edgesQ = useSQLQuery<Edge[]>(`SELECT coach, served_under, first_year, last_year FROM "nfl_coaching_tree"."main"."edges"`);
+  const stintsQ = useSQLQuery<Stint[]>(`SELECT coach, team, start_year, end_year, role, is_head_coach FROM "nfl_coaching_tree"."main"."stints"`);
+  // normalize numeric columns to plain JS numbers (bigint-safe) at the boundary
+  const coaches = useMemo<Coach[]>(() => ((coachesQ.data ?? []) as Coach[]).map((c) => ({
+    ...c, hc_wins: Nz(c.hc_wins), hc_losses: Nz(c.hc_losses), hc_ties: Nz(c.hc_ties), super_bowl_rings: Nz(c.super_bowl_rings),
+  })), [coachesQ.data]);
+  const edges = useMemo<Edge[]>(() => ((edgesQ.data ?? []) as Edge[]).map((e) => ({
+    ...e, first_year: N(e.first_year), last_year: N(e.last_year),
+  })), [edgesQ.data]);
+  const stints = useMemo<Stint[]>(() => ((stintsQ.data ?? []) as Stint[]).map((s) => ({
+    ...s, start_year: N(s.start_year), end_year: N(s.end_year),
+  })), [stintsQ.data]);
   const loading = coachesQ.isLoading || edgesQ.isLoading || stintsQ.isLoading;
 
   const [render, setRender] = useState<"3d" | "2d">("3d");
@@ -718,8 +729,9 @@ function Methodology({ nodes, links }: { nodes: number; links: number }) {
 
       <H>Data</H>
       <P>
-        We start from the 32 current head coaches plus each team's offensive and defensive coordinators (some teams have none — the head coach calls plays).
-        For every coach we fetch their Wikipedia "coaching career" history, and for all 32 franchises the full "List of head coaches" tables.
+        We start from the 32 current head coaches plus each team's offensive and defensive coordinators (some teams have none — the head coach calls plays),
+        cross-checked against Wikipedia's lists of current NFL coordinators. For every coach we fetch their Wikipedia "coaching career" history,
+        and for all 32 franchises the full "List of head coaches" tables.
       </P>
 
       <H>Deriving who served under whom</H>
@@ -745,7 +757,8 @@ function Methodology({ nodes, links }: { nodes: number; links: number }) {
       <H>Hosting</H>
       <P>
         Faces are 96px thumbnails stored as base64 directly in the MotherDuck table and rendered as data-URIs, so the visualization needs no external image host.
-        Everything you see is one React component reading three tables (coaches, edges, stints) live from MotherDuck.
+        The graph itself is a hand-built canvas renderer — its own 3D force layout and projection — using only React, so the whole thing runs as one
+        self-contained MotherDuck Dive reading three tables (coaches, edges, stints) live.
       </P>
 
       <P style={{ color: MUTED, fontSize: 12, marginTop: 12 }}>
