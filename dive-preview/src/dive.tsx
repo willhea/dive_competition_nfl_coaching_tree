@@ -223,7 +223,23 @@ export default function CoachingTree() {
   const fg2d = useRef<any>(null); const fg3d = useRef<any>(null);
   const hostRef = useRef<HTMLDivElement>(null);
   const [graphW, setGraphW] = useState(900);
-  const fitView = () => setTimeout(() => { try { (render === "3d" ? fg3d : fg2d).current?.zoomToFit(500, focusId ? 60 : 30); } catch {} }, 60);
+  // zoomToFit frames the whole bounding box, which leaves the dense core small
+  // (scattered low-degree nodes inflate the box). Fit, then push in past the fit so
+  // the graph fills the window; the user can still zoom/pan out.
+  const fitView = () => setTimeout(() => {
+    try {
+      if (render === "3d") {
+        const fg = fg3d.current; if (!fg) return;
+        fg.zoomToFit(500, focusId ? 40 : 16);
+        const f = focusId ? 0.82 : 0.6; // move camera toward center => zoom in
+        setTimeout(() => { const c = fg.cameraPosition(); fg.cameraPosition({ x: c.x * f, y: c.y * f, z: c.z * f }, undefined, 500); }, 560);
+      } else {
+        const fg = fg2d.current; if (!fg) return;
+        fg.zoomToFit(500, focusId ? 50 : 22);
+        setTimeout(() => { try { fg.zoom(fg.zoom() * (focusId ? 1.25 : 1.7), 500); } catch {} }, 560);
+      }
+    } catch {}
+  }, 60);
   // graph fills whatever width the (full-width, drawer-aware) host gives it
   useEffect(() => {
     const el = hostRef.current; if (!el) return;
@@ -240,12 +256,14 @@ export default function CoachingTree() {
   const leaders = useMemo(() => {
     return coaches.map((c) => {
       const protges = protegesOf.get(c.name) ?? [];
+      const denom = (c.hc_wins ?? 0) + (c.hc_losses ?? 0);
       return {
         name: c.name, n: protges.length,
         hcs: protges.filter((e) => hcSet.has(e.coach)).length,
-        wp: winPct(c), rings: c.super_bowl_rings ?? 0, tree: treeSize(c.name),
+        wp: winPct(c), wpNum: c.hc_wins != null && denom > 0 ? c.hc_wins / denom : null,
+        rings: c.super_bowl_rings ?? 0, tree: treeSize(c.name),
       };
-    }).filter((r) => r.n > 0).sort((a, b) => b.n - a.n || b.tree - a.tree).slice(0, 25);
+    }).filter((r) => r.n > 0);
   }, [coaches, protegesOf, hcSet, treeSize]);
 
   const jumpFromTab = (id: string) => { setTab("explore"); goTo(id); };
@@ -423,31 +441,61 @@ function Row({ name, sub, hc, go }: { name: string; sub: string; hc: boolean; go
   );
 }
 
-function Leaderboard({ leaders, go }: { leaders: { name: string; n: number; hcs: number; wp: string | null; rings: number; tree: number }[]; go: (id: string) => void }) {
-  const head = { fontWeight: 700, color: MUTED, fontSize: 12, textTransform: "uppercase" as const, letterSpacing: 0.4, padding: "6px 10px", borderBottom: "2px solid #e5e5e5" };
+type LeaderRow = { name: string; n: number; hcs: number; wp: string | null; wpNum: number | null; rings: number; tree: number };
+type SortKey = "name" | "n" | "hcs" | "tree" | "wpNum" | "rings";
+
+function Leaderboard({ leaders, go }: { leaders: LeaderRow[]; go: (id: string) => void }) {
+  const [sortKey, setSortKey] = useState<SortKey>("n");
+  const [dir, setDir] = useState<"asc" | "desc">("desc");
+  const clickSort = (k: SortKey) => {
+    if (k === sortKey) setDir((d) => (d === "asc" ? "desc" : "asc"));
+    else { setSortKey(k); setDir(k === "name" ? "asc" : "desc"); }
+  };
+  const rows = useMemo(() => {
+    const s = dir === "asc" ? 1 : -1;
+    const val = (r: LeaderRow) => r[sortKey];
+    return [...leaders].sort((a, b) => {
+      const av = val(a), bv = val(b);
+      if (av == null && bv == null) return 0;
+      if (av == null) return 1;   // nulls always last
+      if (bv == null) return -1;
+      if (typeof av === "string") return (av as string).localeCompare(bv as string) * s;
+      return ((av as number) - (bv as number)) * s || b.n - a.n;
+    }).slice(0, 25);
+  }, [leaders, sortKey, dir]);
+
   const cell = { padding: "6px 10px", borderBottom: "1px solid #f0f0f0", fontSize: 14 };
   const num = { ...cell, textAlign: "right" as const };
+  const cols: { key: SortKey; label: string; align: "left" | "right" }[] = [
+    { key: "name", label: "Coach", align: "left" },
+    { key: "n", label: "Protégés", align: "right" },
+    { key: "hcs", label: "→HC", align: "right" },
+    { key: "tree", label: "Tree", align: "right" },
+    { key: "wpNum", label: "HC win%", align: "right" },
+    { key: "rings", label: "Rings", align: "right" },
+  ];
+  const Th = ({ k, label, align }: { k: SortKey; label: string; align: "left" | "right" }) => (
+    <th onClick={() => clickSort(k)} title="Click to sort"
+      style={{ fontWeight: 700, color: sortKey === k ? NFL : MUTED, fontSize: 12, textTransform: "uppercase", letterSpacing: 0.4, padding: "6px 10px", borderBottom: "2px solid #e5e5e5", textAlign: align, cursor: "pointer", userSelect: "none", whiteSpace: "nowrap" }}>
+      {label}{sortKey === k ? (dir === "asc" ? " ▲" : " ▼") : ""}
+    </th>
+  );
   return (
     <div className="mt-4" style={{ maxWidth: 760 }}>
       <div style={{ fontSize: 18, fontWeight: 700, color: NFL }}>Biggest coaching trees</div>
       <div style={{ fontSize: 12, color: MUTED, marginBottom: 10 }}>
-        Ranked by direct protégés (assistants who served under them). Click any coach to open their network on the Explore tab.
-        <b> →HC</b> = protégés who went on to be NFL head coaches · <b>tree</b> = total descendants, all generations · ★ = Super Bowls won.
+        Coaches who produced protégés (assistants who served under them). Click a column to sort; click any coach to open their network on the Explore tab.
+        <b> →HC</b> = protégés who became NFL head coaches · <b>tree</b> = total descendants, all generations · ★ = Super Bowls won. Top 25 shown.
       </div>
       <table style={{ width: "100%", borderCollapse: "collapse" }}>
         <thead>
           <tr>
-            <th style={{ ...head, textAlign: "right", width: 36 }}>#</th>
-            <th style={{ ...head, textAlign: "left" }}>Coach</th>
-            <th style={{ ...head, textAlign: "right" }}>Protégés</th>
-            <th style={{ ...head, textAlign: "right" }}>→HC</th>
-            <th style={{ ...head, textAlign: "right" }}>Tree</th>
-            <th style={{ ...head, textAlign: "right" }}>HC win%</th>
-            <th style={{ ...head, textAlign: "right" }}>Rings</th>
+            <th style={{ width: 36, padding: "6px 10px", borderBottom: "2px solid #e5e5e5", textAlign: "right", color: MUTED, fontSize: 12 }}>#</th>
+            {cols.map((c) => <Th key={c.key} k={c.key} label={c.label} align={c.align} />)}
           </tr>
         </thead>
         <tbody>
-          {leaders.map((r, i) => (
+          {rows.map((r, i) => (
             <tr key={r.name} onClick={() => go(r.name)} style={{ cursor: "pointer" }}
               onMouseEnter={(e) => (e.currentTarget.style.background = "#f6f8fb")} onMouseLeave={(e) => (e.currentTarget.style.background = "")}>
               <td style={{ ...num, color: MUTED }}>{i + 1}</td>
