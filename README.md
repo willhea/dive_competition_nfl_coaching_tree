@@ -5,6 +5,8 @@ trained under whom — for every current (2026) head coach, offensive coordinato
 coordinator, traced back through the head coaches they served under. Built for MotherDuck's
 [DiveMaxxing](https://motherduck.com/divemaxxing/) competition.
 
+**Live Dive:** https://app.motherduck.com/dives/nfl-coaching-tree-772eb187-71b3-489c-88bb-9f76e992768f
+
 Nodes are coaches (with their Wikipedia photo); an edge points from a head coach to a coach who
 served on his staff and later became a coordinator or head coach. The graph renders in 2D or 3D
 with ego-focus navigation — click any coach to see their branch.
