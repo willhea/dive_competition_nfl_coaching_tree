@@ -250,7 +250,7 @@ export default function CoachingTree() {
         <div className="flex rounded overflow-hidden" style={{ border: "1px solid #ccc" }}>
           {(["lineage", "role"] as const).map((m) => (
             <button key={m} onClick={() => setColorBy(m)} className="px-3 py-1"
-              style={{ background: colorBy === m ? NFL : "#fff", color: colorBy === m ? "#fff" : "#333" }}>{m === "lineage" ? "Lineage" : "Role"}</button>
+              style={{ background: colorBy === m ? NFL : "#fff", color: colorBy === m ? "#fff" : "#333" }}>{m === "lineage" ? "Lineage" : "Current Role"}</button>
           ))}
         </div>
         <button onClick={back} disabled={!history.length} className="px-3 py-1 rounded" style={{ border: "1px solid #ccc", background: "#fff", opacity: history.length ? 1 : 0.4 }}>← Back</button>
@@ -316,7 +316,7 @@ export default function CoachingTree() {
 
       <p className="text-xs mt-3" style={{ color: MUTED }}>
         Click any face to focus it and see their card · <b>← Back</b> / <b>⌂ Show all</b> to return · bigger nodes = more protégés.
-        Ring color: in <b>Lineage</b> mode each coach is tinted by their founding tree (traced through their longest-tenure mentor); in <b>Role</b> mode a navy ring marks a current 2026 coach.
+        Ring color: in <b>Lineage</b> mode each coach is tinted by their founding tree (traced through their longest-tenure mentor); in <b>Current Role</b> mode a navy ring marks a current 2026 coach.
         Win% is NFL head-coaching regular season; rings count Super Bowls won as a coach (incl. as an assistant). Source: Wikipedia.
       </p>
     </div>
